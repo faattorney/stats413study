@@ -1,0 +1,393 @@
+\documentclass[7pt]{extarticle}
+\usepackage[portrait,margin=0.3in,top=0.35in,bottom=0.35in]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{bm}
+
+% Compact spacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1pt}
+\setlength{\columnsep}{10pt}
+\setlength{\columnseprule}{0.2pt}
+\setlist{nosep,leftmargin=10pt,topsep=1pt}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}
+\setlength{\belowdisplayshortskip}{2pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\footnotesize\color{gray} STATS 413 Midterm 2 Reference Sheet --- Page \thepage\ of 2}
+
+\newcommand{\msection}[1]{%
+  \vspace{4pt}%
+  {\small\bfseries\color{blue!70!black}\MakeUppercase{#1}}%
+  \vspace{1pt}%
+  \par\nobreak%
+  {\color{blue!70!black}\hrule height 0.4pt}%
+  \vspace{2pt}\par\nobreak%
+}
+\newcommand{\msubsection}[1]{%
+  \vspace{2pt}%
+  {\footnotesize\bfseries\color{purple!70!black}#1}%
+  \vspace{1pt}\par\nobreak%
+}
+
+\newcommand{\bhat}{\hat{\bm{\beta}}}
+\newcommand{\bvec}{\bm{\beta}}
+\newcommand{\xt}{\tilde{\bm{x}}}
+\newcommand{\sighat}{\hat{\sigma}_\varepsilon}
+\newcommand{\sigeps}{\sigma_\varepsilon}
+\newcommand{\XtX}{X^\top X}
+\newcommand{\ep}{\varepsilon}
+
+\raggedbottom
+\begin{document}
+
+% ============================================================
+%  PAGE 1 --- Foundations (L1--6) + Categoricals/Interactions (L7--8)
+% ============================================================
+
+\begin{center}
+{\large\bfseries STATS 413 --- Midterm 2 Reference Sheet}\\[0.5pt]
+{\footnotesize\color{gray} Page 1: Foundations (L1--6) + Categoricals \& Interactions (L7--8) $\mid$ Fall 2026}
+\end{center}
+\vspace{-2pt}
+{\color{blue!70!black}\hrule height 0.6pt}
+\vspace{3pt}
+
+\begin{multicols}{2}
+
+% ================================================================
+\msection{The Linear Model (L1--4)}
+% ================================================================
+
+\textbf{Weaker:} $\bm{y} = X\bvec + \bm{\ep}$, $E(\bm{\ep})=\bm{0}$, $\text{Var}(\bm{\ep})=\sigeps^2 I$. \;
+\textbf{Stronger:} also $\bm{\ep}\sim\text{MVN}(\bm{0},\sigeps^2 I)$.
+$X$: $n{\times}(p{+}1)$, first col $= \bm{1}$.
+
+\msubsection{Random Vector Properties}
+$E(A\bm{Z}{+}\bm{b}) = AE(\bm{Z}){+}\bm{b}$, \;
+$\text{Var}(A\bm{Z}{+}\bm{b}) = A\text{Var}(\bm{Z})A^\top$, \;
+$\text{Var}(\bm{Z}) = E[\bm{Z}\bm{Z}^\top] - E[\bm{Z}]E[\bm{Z}]^\top$
+
+\msubsection{What Each Model Gives Us}
+\textbf{Weaker:} unbiased $\bhat$, $\text{Var}(\bhat)$, Gauss-Markov.
+\textbf{Stronger adds:} tests, CIs, partial F, PI.
+
+% ================================================================
+\msection{OLS Estimation (L2--4)}
+% ================================================================
+
+\[
+\bhat = (\XtX)^{-1}X^\top \bm{y} = \arg\min_{\tilde\bvec}\|\bm{y} - X\tilde\bvec\|^2
+\]
+
+Linear in $\bm{y}$: $\bhat = A\bm{y}$, \; $A = (\XtX)^{-1}X^\top$.
+
+\msubsection{Under Weaker Model}
+$E(\bhat) = \bvec$ (unbiased), \quad $\text{Var}(\bhat) = \sigeps^2(\XtX)^{-1}$
+
+$\text{Var}(\hat\beta_j) = \sigeps^2[(\XtX)^{-1}]_{(j+1),(j+1)}$
+
+\msubsection{Under Stronger Model}
+$\bhat \sim \text{MVN}\!\left(\bvec,\; \sigeps^2(\XtX)^{-1}\right)$
+
+$\hat\beta_j \sim N\!\left(\beta_j,\; \sigeps^2[(\XtX)^{-1}]_{(j+1),(j+1)}\right)$
+
+\textbf{MLE:} Under normality, MLE of $\bvec$ = OLS $\bhat$.
+
+\textbf{Gauss-Markov (BLUE):} Under weaker, OLS has smallest MSE among linear unbiased est. Key: any linear $\tilde\bvec = A\bm{y}$ with $A = (\XtX)^{-1}X^\top + D$, $DX=\bm{0}$ $\Rightarrow$ $\text{Var}(\tilde\bvec) = \text{Var}(\bhat) + \sigeps^2 DD^\top$.
+
+% ================================================================
+\msection{Hat Matrix \& Projections (L4, 10)}
+% ================================================================
+
+$H = X(\XtX)^{-1}X^\top$, \quad $\hat{\bm{y}}=H\bm{y}$, \quad $\bm{e}=(I-H)\bm{y}$
+
+\msubsection{Key Matrix Identities}
+\begin{itemize}
+\item $H^\top{=}H$, $H^2{=}H$ (symmetric, idempotent)
+\item $(I{-}H)^\top{=}I{-}H$, $(I{-}H)^2{=}I{-}H$
+\item $H(I{-}H) = \bm{0}$, \;\; $X^\top \bm{e} = \bm{0}$
+\item $H$ projects onto $\text{col}(X)$; $(I{-}H)$ onto $\text{col}(X)^\perp$
+\end{itemize}
+
+\msubsection{Diagonal Elements}
+$1/n \le h_{ii}\le 1$, \quad $\sum h_{ii}=p{+}1$, \quad $\hat{y}_i = h_{ii}y_i + \sum_{j\ne i}h_{ij}y_j$
+
+\msubsection{Under Weaker Model}
+$E(\bm{e}) = \bm{0}$, $E(\hat{\bm{y}}) = X\bvec$. \; $\text{Var}(\bm{e}) = \sigeps^2(I{-}H)$, $\text{Var}(\hat{\bm{y}}) = \sigeps^2 H$
+
+$\text{Var}(e_i) = \sigeps^2(1{-}h_{ii})$, $\text{Var}(\hat{y}_i) = \sigeps^2 h_{ii}$, $\text{Cov}(e_i,\hat{y}_j){=}0$, $\text{Cov}(e_i,e_j) = -\sigeps^2 h_{ij}$
+
+\textbf{Stronger:} $\bm{e} \perp\!\!\!\perp \hat{\bm{y}}$. $e_i \sim N(0,\sigeps^2(1{-}h_{ii}))$. If $h_{ii}=1$: $\hat{y}_i{=}y_i$, $e_i{=}0$.
+
+\textbf{Algebraic (w/ intercept):} $\bar{e}=0$, $\text{cov}(e,\hat{y})=0$, $\text{cov}(e,x_j)=0$
+
+% ================================================================
+\msection{$R^2$ and Sums of Squares (L4)}
+% ================================================================
+
+$\text{TSS} = \sum(y_i{-}\bar{y})^2$, \; $\text{RSS} = \sum e_i^2$, \; $\text{SSreg} = \sum(\hat{y}_i{-}\bar{y})^2$. \; TSS $=$ SSreg $+$ RSS (w/ intercept).
+
+$R^2 = 1 - \text{RSS}/\text{TSS} = \text{cor}(\hat{y},y)^2$. Simple: $R^2 = \text{cor}(x,y)^2$. Never decreases adding predictors.
+
+% ================================================================
+\msection{Estimating $\sigma_\ep$ (L5)}
+% ================================================================
+
+$\sighat^2 = \text{RSS}/(n{-}p{-}1)$. \; df $= n{-}p{-}1$ ($p{+}1$ constraints from $\bm{e}^\top X = \bm{0}$).
+
+$\text{se}(\hat\beta_j) = \sighat\sqrt{[(\XtX)^{-1}]_{(j+1),(j+1)}}$
+
+% ================================================================
+\msection{Hypothesis Tests (L5--6)}
+% ================================================================
+
+\msubsection{t-test for $\beta_j$}
+$H_0:\beta_j = c$. \quad Test statistic:
+\[
+t = \frac{\hat\beta_j - c}{\text{se}(\hat\beta_j)} \sim t_{n-p-1} \quad \text{under } H_0
+\]
+
+$\ne c$: $p{=}2P(T{\ge}|t|)$. \; $>c$: $P(T{\ge}t)$. \; $<c$: $P(T{\le}t)$. Reject if $p \le \alpha$.
+
+\msubsection{CI for $\beta_j$}
+\[
+\hat\beta_j \;\pm\; t_{1-\alpha/2,\;n-p-1} \cdot \text{se}(\hat\beta_j)
+\]
+
+\textbf{Duality:} reject $H_0\!: \beta_j{=}c$ at $\alpha$ $\iff$ $c \notin$ the $100(1{-}\alpha)\%$ CI.
+
+\msubsection{Overall F-test}
+$H_0: \beta_1{=}\cdots{=}\beta_p{=}0$, \; $H_a$: at least one $\ne 0$.
+\[
+F = \frac{R^2/p}{(1{-}R^2)/(n{-}p{-}1)} = \frac{(\text{TSS}{-}\text{RSS})/p}{\text{RSS}/(n{-}p{-}1)} \sim F_{p,\,n-p-1}
+\]
+
+$p$-value $= P(F_{p,n-p-1} \ge F_{\text{obs}})$. Always right-tail.
+
+\msubsection{Partial F-test}
+Full vs.\ reduced (nested). $H_0$: subset of $\beta$'s $= 0$.
+\[
+F = \frac{(\text{RSS}_R - \text{RSS}_F)/(df_R - df_F)}{\text{RSS}_F/df_F} \sim F_{df_R-df_F,\;df_F}
+\]
+
+Num.\ df $= p_F - p_R$. Overall F: reduced $=$ intercept only.
+
+\textbf{Key:} $t^2_{df} = F_{1,df}$ --- partial F for one predictor $=$ t-test.
+
+% ================================================================
+\msection{Categorical Variables (L7)}
+% ================================================================
+
+$G$ levels $\to$ $G{-}1$ \textbf{dummy variables}. Omitted $=$ \textbf{reference}.
+
+$\hat\beta_0 = \bar{y}_{\text{ref}}$, \;\; $\hat\beta_j = \bar{y}_j - \bar{y}_{\text{ref}}$ \;\; (one categorical only).
+
+\textbf{Interpretation:} $\hat\beta_j$ = est.\ diff.\ in $E(y)$ between cat.\ $j$ and reference, \emph{holding other vars fixed}. Why not $G$? $\sum$ dummies $= \bm{1}$ $\Rightarrow$ $\XtX$ singular.
+
+One categorical $+$ overall F $=$ \textbf{ANOVA}: $H_0\!: \mu_1{=}\cdots{=}\mu_G$. Adding continuous predictors: slopes compare groups \emph{holding continuous vars fixed}.
+
+% ================================================================
+\msection{Interactions (L7--8)}
+% ================================================================
+
+\textbf{Cat $\times$ Cont:} $x_i \cdot \mathbf{1}\{z{=}c\}$ gives group-specific slopes. Full interactions $=$ separate regressions per group.
+
+\textbf{Cont $\times$ Cont:} include $x_1 x_2$ as predictor:
+\[
+\frac{\partial\hat{y}}{\partial x_1} = \hat\beta_1 + \hat\beta_{12}\,x_2
+\]
+
+\textbf{Interpreting:} slope in subgroup $= \hat\beta + \hat\beta_{\text{interaction}}$. Define $\bm{a}$ s.t.\ $\bm{a}^\top\bhat =$ desired combination.
+
+\textbf{Simpson's Paradox:} Aggregated trend reverses within subgroups when confounder is ignored.
+
+% ================================================================
+\msection{Linear Combinations (L8)}
+% ================================================================
+
+For any fixed vector $\bm{a}$:
+\[
+E(\bm{a}^\top\bhat) = \bm{a}^\top\bvec \qquad \text{Var}(\bm{a}^\top\bhat) = \sigeps^2\,\bm{a}^\top(\XtX)^{-1}\bm{a}
+\]
+\[
+\text{se}(\bm{a}^\top\bhat) = \sighat\sqrt{\bm{a}^\top(\XtX)^{-1}\bm{a}}
+\]
+
+Cannot compute from \texttt{summary()} alone---need $\sighat$ and $X$.
+
+\end{multicols}
+
+% ============================================================
+%  PAGE 2 --- L9--13
+% ============================================================
+\newpage
+
+\begin{multicols*}{2}
+
+% ================================================================
+\msection{Conditional Expectations (L9)}
+% ================================================================
+
+$\hat\mu_{y|\xt} = \xt^\top\bhat$ \;\; estimates \;\; $\mu_{y|\xt} = E(y|\xt) = \xt^\top\bvec$
+\[
+E(\hat\mu_{y|\xt}) = \mu_{y|\xt} \qquad \text{Var}(\hat\mu_{y|\xt}) = \sigeps^2\,\xt^\top(\XtX)^{-1}\xt
+\]
+
+Stronger: $\hat\mu_{y|\xt} \sim N(\mu_{y|\xt}, \sigeps^2\xt^\top(\XtX)^{-1}\xt)$
+
+\textbf{CI for $\mu_{y|\xt}$:}
+\[
+\hat\mu_{y|\xt} \;\pm\; t_{1-\alpha/2,\;n-p-1}\cdot\sighat\sqrt{\xt^\top(\XtX)^{-1}\xt}
+\]
+
+\textbf{Test} $H_0\!: \mu_{y|\xt} = \mu_0$: \; $t = (\hat\mu_{y|\xt} - \mu_0)/[\sighat\sqrt{\xt^\top(\XtX)^{-1}\xt}] \sim t_{n-p-1}$
+
+Variance \textbf{smallest} at $\xt = \bar{\bm{x}}$; increases away from center.
+
+% ================================================================
+\msection{Prediction Intervals (L9--10)}
+% ================================================================
+
+Future observation: $y^* = \xt^\top\bvec + \ep^*$, \;\; $\ep^*$ indep.\ of $\ep_1,\ldots,\ep_n$.
+
+Two sources: estimation $\text{Var}(\hat\mu) = \sigeps^2\xt^\top(\XtX)^{-1}\xt$ + noise $\text{Var}(\ep^*) = \sigeps^2$.
+\[
+\text{Var}(y^*{-}\hat\mu_{y|\xt}) = \sigeps^2\!\left(1 + \xt^\top(\XtX)^{-1}\xt\right)
+\]
+
+\textbf{Prediction Interval:}
+\[
+\hat\mu_{y|\xt} \;\pm\; t_{1-\alpha/2,\;n-p-1}\cdot\sighat\sqrt{1+\xt^\top(\XtX)^{-1}\xt}
+\]
+
+\msubsection{PI vs CI}
+\begin{itemize}
+\item PI \textbf{always wider} (extra ``$1+$'' inside $\sqrt{\phantom{x}}$\,)
+\item CI width $\to 0$ as $n\to\infty$; PI width $\to 2z\sigeps$
+\item CI targets $E(y|\xt)$; PI targets individual $y^*$
+\item Even knowing $\bvec$ perfectly, can't predict $y^*$ perfectly
+\end{itemize}
+
+\textbf{Requires:} linearity (center), homosked.\ + normality (width). Homosked.\ lets us pool residuals to estimate $\sigeps$ at any $\xt$.
+
+\msubsection{Prediction Error Decomposition}
+$E[(y^*{-}\xt^\top\bhat)^2] = \text{Var}(\ep^*) + \text{Var}(\xt^\top\bhat)$. Cross term $= 0$ by independence.
+
+% ================================================================
+\msection{Diagnostics (L10--11)}
+% ================================================================
+
+\msubsection{Internally Studentized Residuals}
+$r_i = e_i/[\sighat\sqrt{1-h_{ii}}]$. \; Under stronger: $\text{Var}(e_i/\sqrt{1{-}h_{ii}}) = \sigeps^2$. Use $r_i$ for plots (approx.\ identically distributed).
+
+\msubsection{1. Linearity}
+Plot $e_i$ vs.\ $\hat{y}_i$ or each $x_j$. Good: amorphous blob. Bad: curvature.
+
+\msubsection{2. Homoskedasticity}
+Plot $r_i$ or $\sqrt{|r_i|}$ vs.\ $\hat{y}_i$. Good: constant spread. Bad: fanning.
+
+\msubsection{3. Normality (QQ-plot of $r_i$)}
+Sort $r_{[i]}$, plot vs.\ $\Phi^{-1}\!(i/(n{+}1))$.
+
+\begin{itemize}
+\item On diagonal $\to$ normal
+\item Convex (cup) $\to$ right-skewed
+\item Concave $\to$ left-skewed
+\item S-shape $\to$ heavy tails
+\end{itemize}
+
+\msubsection{Consequences of Violations}
+Nonlinearity: biased predictions. Heterosked.: wrong SEs, $p$-values, CI/PI widths. Non-normality: $t$/$F$ distributions invalid, coverage $\ne 1{-}\alpha$.
+
+% ================================================================
+\msection{Leverage (L11)}
+% ================================================================
+
+$h_{ii} = \bm{x}_i^\top(\XtX)^{-1}\bm{x}_i$. Measures distance from $\bar{\bm{x}}$. Depends \textbf{only on $X$}.
+
+$1/n \le h_{ii} \le 1$. Min at $\bm{x}_i = \bar{\bm{x}}$. Unique cat.\ level $\Rightarrow h_{ii}=1$.
+
+$\text{Corr}(\hat{y}_i, y_i \mid x_i) = \sqrt{h_{ii}}$. High leverage $=$ \emph{potential} influence, not necessarily influential. \textbf{Rule:} $h_{ii} > 2(p{+}1)/n$.
+
+% ================================================================
+\msection{Outlier Detection (L12)}
+% ================================================================
+
+High $h_{ii}$ + outlying $y_i$ $\Rightarrow$ small $e_i$ (line pulled toward it). Fix: refit without $i$.
+
+\textbf{Ext.\ studentized:} $t_i = r_i\sqrt{(n{-}p{-}2)/(n{-}p{-}1{-}r_i^2)} \sim t_{n-p-2}$
+
+\textbf{Single:} reject if $|t_i| > t_{1-\alpha/2,\,n-p-2}$. \textbf{All $n$:} Bonferroni at $\alpha/n$.
+
+Don't remove unless data error. R: \texttt{rstudent(lm)}
+
+% ================================================================
+\msection{Cook's Distance (L12)}
+% ================================================================
+
+$D_i = \frac{1}{p{+}1}\,r_i^2\,\frac{h_{ii}}{1{-}h_{ii}}$. Combines residual + leverage. \textbf{Rule:} $D_i > 1$ influential. R: \texttt{cooks.distance(lm)}
+
+% ================================================================
+\msection{Multicollinearity (L12--13)}
+% ================================================================
+
+Predictors linearly related $\Rightarrow$ $\XtX$ nearly singular. \textbf{Consequences:} unstable $\bhat$, inflated SEs, weird signs. \textbf{Hallmark:} sig.\ overall F, no sig.\ t-tests.
+
+\msubsection{VIF}
+$\text{VIF}_j = 1/(1{-}R_j^2)$. $R_j^2$ from regressing $x_j$ on other predictors. Rule: $>10$ concerning. R: \texttt{vif(lm)}
+
+\msubsection{Condition Number}
+$\kappa = \sqrt{\lambda_{\max}/\lambda_{\min}}$ of predictor corr.\ matrix. $>15$: moderate. $>30$: severe.
+
+\msubsection{Partial Regression}
+Regress $y$ on $X_R$ $\to$ $y_R$; regress $x_j$ on $X_R$ $\to$ $x_{j,R}$. Slope of $y_R$ on $x_{j,R}$ $= \hat\beta_j$. Pairwise: flag $|r|>0.9$.
+
+% ================================================================
+\msection{Multiple Hyp.\ Tests (L13)}
+% ================================================================
+
+$K$ tests at $\alpha$: $P(\ge\!1$ Type I error$) \le K\alpha$. Under indep.: $1{-}(1{-}\alpha)^K$.
+
+\textbf{FWER} $= P(\text{reject}\ge 1$ true $H_0)$.
+
+\msubsection{Bonferroni}
+Each test at $\alpha/K$ $\Rightarrow$ FWER $\le \alpha$. Controls error but \textbf{reduces power}.
+
+\msubsection{Holm--Bonferroni (uniformly better)}
+Order $p$-values $p_1 \le \cdots \le p_K$. Step $i$: reject if $p_i \le \alpha/(K{+}1{-}i)$; else stop. Rejects $\ge$ as many as Bonferroni.
+
+\msubsection{Post-hoc Pairwise}
+After overall F rejects $\mu_1{=}\cdots{=}\mu_G$: test $\binom{G}{2}$ pairs with Holm. Tells you \textbf{which} groups differ.
+
+% ================================================================
+\msection{Quick Reference}
+% ================================================================
+
+\msubsection{Which Test?}
+Single $\beta_j{=}0$: t-test. Subset $= 0$: partial F. All slopes $= 0$: overall F. Group means equal: ANOVA. Outlier: ext.\ stud.\ $t_i$. Multiple: Holm.
+
+\msubsection{Key R Commands}
+\begin{itemize}
+\item \texttt{lm(y \~{} x1 + x2, data)} --- fit model
+\item \texttt{summary(lm)} --- coefs, SEs, t-tests, $R^2$, F
+\item \texttt{confint(lm, level=0.95)} --- CIs for $\beta_j$
+\item \texttt{anova(reduced, full)} --- partial F-test
+\item \texttt{predict(lm, newdata, interval="confidence")}
+\item \texttt{predict(lm, newdata, interval="prediction")}
+\item \texttt{hatvalues(lm)} --- $h_{ii}$; \texttt{rstandard(lm)} --- $r_i$
+\item \texttt{rstudent(lm)} --- $t_i$; \texttt{cooks.distance(lm)} --- $D_i$
+\item \texttt{plot(lm, which=1:6)} --- diagnostic plots
+\item \texttt{vif(lm)} --- VIF (requires \texttt{car} package)
+\item \texttt{p.adjust(pvals, method="holm")} --- Holm correction
+\item \texttt{model.matrix(lm)} --- design matrix $X$
+\end{itemize}
+
+\end{multicols*}
+\end{document}

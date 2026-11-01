@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STATS 413 — Midterm 2 Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface2: #334155;
+  --border: #475569;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent2: #818cf8;
+  --green: #4ade80;
+  --yellow: #fbbf24;
+  --red: #f87171;
+  --orange: #fb923c;
+  --pink: #f472b6;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  scroll-behavior: smooth;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* --- Hero --- */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem 3rem;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e1b4b 100%);
+  border-bottom: 1px solid var(--border);
+}
+.hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+.hero h1 span { color: var(--accent); }
+.hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+.hero .badge {
+  display: inline-block; margin-top: 1rem;
+  background: var(--surface2); padding: 0.35rem 1rem;
+  border-radius: 999px; font-size: 0.85rem; color: var(--yellow);
+  border: 1px solid var(--yellow);
+}
+
+/* --- Nav --- */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,23,42,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 1rem;
+  display: flex; gap: 0.5rem; overflow-x: auto;
+  justify-content: center; flex-wrap: wrap;
+}
+nav a {
+  padding: 0.4rem 0.9rem; border-radius: 8px;
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--text-muted); white-space: nowrap;
+  transition: all 0.2s;
+}
+nav a:hover, nav a.active {
+  background: var(--surface); color: var(--accent);
+  text-decoration: none;
+}
+
+/* --- Layout --- */
+.container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* --- Section --- */
+.section {
+  margin-bottom: 3rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.section-header {
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 1rem;
+  user-select: none;
+  transition: background 0.2s;
+}
+.section-header:hover { background: var(--surface2); }
+.section-header .num {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem; flex-shrink: 0;
+}
+.section-header h2 { font-size: 1.25rem; font-weight: 600; }
+.section-header .arrow {
+  margin-left: auto; font-size: 1.2rem;
+  transition: transform 0.3s; color: var(--text-muted);
+}
+.section.open .section-header .arrow { transform: rotate(180deg); }
+.section-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.section.open .section-body { max-height: none; }
+.section-content { padding: 0 2rem 2rem; }
+
+/* --- Cards --- */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.card h3 {
+  font-size: 1.05rem; font-weight: 600;
+  margin-bottom: 0.75rem; color: var(--accent);
+}
+.card h4 {
+  font-size: 0.95rem; font-weight: 600;
+  margin: 1rem 0 0.5rem; color: var(--accent2);
+}
+
+/* --- Formula Box --- */
+.formula-box {
+  background: #1a1a2e;
+  border: 1px solid var(--accent2);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  overflow-x: auto;
+}
+.formula-box.key {
+  border-color: var(--yellow);
+  background: rgba(251,191,36,0.06);
+}
+
+/* --- Example Question --- */
+.example-q {
+  background: rgba(56,189,248,0.06);
+  border: 1px solid rgba(56,189,248,0.25);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+}
+.example-q .q-label {
+  font-size: 0.75rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--accent); margin-bottom: 0.5rem;
+}
+.example-q .q-text { margin-bottom: 0.75rem; }
+
+/* --- Spoiler / Solution Toggle --- */
+.spoiler {
+  background: var(--surface2);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+.spoiler-btn {
+  display: block; width: 100%;
+  background: none; border: none;
+  color: var(--green); font-weight: 600;
+  padding: 0.6rem 1rem;
+  cursor: pointer; text-align: left;
+  font-size: 0.9rem; font-family: inherit;
+}
+.spoiler-btn:hover { background: rgba(74,222,128,0.08); }
+.spoiler-content {
+  display: none; padding: 0 1rem 1rem;
+  color: var(--text);
+  line-height: 1.8;
+}
+.spoiler.open .spoiler-content { display: block; }
+
+/* --- Concept List --- */
+ul.concepts { list-style: none; padding: 0; }
+ul.concepts li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+ul.concepts li::before {
+  content: '▸';
+  position: absolute; left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* --- Code --- */
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: var(--green);
+}
+pre {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0.75rem 0;
+  color: var(--green);
+}
+
+/* --- Progress Bar --- */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  z-index: 200; transition: width 0.1s;
+}
+
+/* --- Color Coding for Section Numbers --- */
+.c-blue { background: rgba(56,189,248,0.15); color: var(--accent); }
+.c-purple { background: rgba(129,140,248,0.15); color: var(--accent2); }
+.c-green { background: rgba(74,222,128,0.15); color: var(--green); }
+.c-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+.c-red { background: rgba(248,113,113,0.15); color: var(--red); }
+.c-orange { background: rgba(251,146,60,0.15); color: var(--orange); }
+.c-pink { background: rgba(244,114,182,0.15); color: var(--pink); }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.75rem; }
+  .section-content { padding: 0 1.25rem 1.25rem; }
+  .card { padding: 1rem; }
+  nav { justify-content: flex-start; }
+}
+
+/* Cheat sheet table */
+table.cheat {
+  width: 100%; border-collapse: collapse;
+  margin: 0.75rem 0; font-size: 0.92rem;
+}
+table.cheat th, table.cheat td {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+table.cheat th { background: var(--surface2); font-weight: 600; color: var(--accent); }
+table.cheat td { background: var(--bg); }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>STATS <span>413</span> — Midterm 2</h1>
+  <p>Applied Regression Analysis &bull; Fall 2026 &bull; Prof. Brumberg</p>
+  <div class="badge">Covers Lectures 7–13 (cumulative, focus on 7–13)</div>
+</div>
+
+<!-- Nav -->
+<nav id="topNav">
+  <a href="#lec7">L7: Categoricals &amp; F-test</a>
+  <a href="#lec8">L8: Partial F &amp; Interactions</a>
+  <a href="#lec9">L9: Cond. Expectations &amp; PI</a>
+  <a href="#lec10">L10: Diagnostics</a>
+  <a href="#lec11">L11: Normality &amp; Leverage</a>
+  <a href="#lec12">L12: Outliers &amp; Influence</a>
+  <a href="#lec13">L13: Multicollinearity &amp; MHT</a>
+  <a href="#proofs">Proof Practice</a>
+  <a href="#cheatsheet">Cheat Sheet</a>
+  <a href="#refsheet">Reference Sheet</a>
+</nav>
+
+<div class="container">
+
+<!-- ===================== LECTURE 7 ===================== -->
+<div class="section open" id="lec7">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num c-blue">7</div>
+    <h2>Categorical Variables, ANOVA &amp; Interactions</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="card">
+      <h3>Categorical (Dummy) Variables</h3>
+      <ul class="concepts">
+        <li>A categorical predictor with $G$ levels is encoded as $G - 1$ <strong>dummy (indicator) variables</strong>. The omitted level is the <strong>reference category</strong>.</li>
+        <li>Each slope $\hat\beta_j$ represents the estimated difference in expected $y$ between category $j$ and the reference category.</li>
+        <li>Cannot use $G$ dummies + intercept: the $G$ dummies sum to the intercept column $\Rightarrow$ perfect collinearity, $X^\top X$ non-invertible.</li>
+      </ul>
+      <div class="formula-box">
+        $$\hat{y}_i = \hat\beta_0 + \hat\beta_1 \mathbf{1}\{x_i = c_1\} + \cdots + \hat\beta_{G-1}\mathbf{1}\{x_i = c_{G-1}\}$$
+      </div>
+      <p>Predictions by group: Reference → $\hat\beta_0$; Category $j$ → $\hat\beta_0 + \hat\beta_j$.</p>
+    </div>
+
+    <div class="card">
+      <h3>ANOVA via the Overall F-Test</h3>
+      <p>Regressing $y$ on a single categorical predictor and using the overall F-test is equivalent to a one-way <strong>Analysis of Variance</strong>.</p>
+      <div class="formula-box">
+        $$H_0: \mu_1 = \mu_2 = \cdots = \mu_G \qquad H_a: \text{at least one } \mu_g \text{ differs}$$
+      </div>
+      <p>Assumes homoskedasticity ($\sigma_1 = \cdots = \sigma_G$) and normality under the stronger linear model.</p>
+    </div>
+
+    <div class="card">
+      <h3>Combining Continuous &amp; Categorical Predictors</h3>
+      <p>Including both adjusts the categorical slopes: they now represent differences <strong>holding continuous variables fixed</strong>.</p>
+    </div>
+
+    <div class="card">
+      <h3>Interaction Terms</h3>
+      <p>Allow slopes to differ across groups. For continuous $\times$ categorical:</p>
+      <div class="formula-box">
+        $$x_i \cdot \mathbf{1}\{x_j = c\} = \begin{cases} x_i & \text{if } x_j = c \\ 0 & \text{otherwise}\end{cases}$$
+      </div>
+      <p>Each group gets its own intercept and slope. Including all interactions is equivalent to fitting separate regressions per group.</p>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 4 — Problem 1(d): Separate Prediction Equations</div>
+      <div class="q-text">
+        Given the regression <code>Income ~ Education * Millenial</code> with output:<br>
+        Intercept = 21.13, Education = 0.399, MillenialTRUE = −8.153, Education:MillenialTRUE = −0.086.<br>
+        Provide separate prediction equations for Millenials and Non-Millenials.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p><strong>Non-Millenial:</strong> $\widehat{\text{Income}} = 21.13 + 0.399 \cdot \text{Education}$</p>
+          <p><strong>Millenial:</strong> $\widehat{\text{Income}} = (21.13 - 8.15) + (0.399 - 0.086)\cdot \text{Education} = 12.98 + 0.313 \cdot \text{Education}$</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 4 — Problem 1(j): Simpson's Paradox</div>
+      <div class="q-text">
+        Analysis I (simple regression of Income on Education) shows a negative slope. Analysis II (with Millenial interaction) shows a positive slope on Education. Explain the discrepancy.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>This is <strong>Simpson's Paradox</strong>. The overall trend (aggregated) is not the same as the within-group trends. Millenials tend to have more education but lower income. Once we separate groups, the relationship between education and income within each group is positive, but the confounding effect of the Millenial variable reverses the sign when aggregated.</p>
+          <p>Also, slopes in the two models don't have the same interpretation — different variables are being held fixed.</p>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== LECTURE 8 ===================== -->
+<div class="section" id="lec8">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num c-purple">8</div>
+    <h2>Partial F-Test &amp; Continuous Interactions</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="card">
+      <h3>The Partial F-Test</h3>
+      <p>Compares a <strong>full model</strong> (all predictors) to a <strong>reduced model</strong> (subset). Tests whether a group of coefficients are jointly zero.</p>
+      <div class="formula-box key">
+        $$F = \frac{(\text{RSS}_{\text{red}} - \text{RSS}_{\text{full}}) / (df_{\text{red}} - df_{\text{full}})}{\text{RSS}_{\text{full}} / df_{\text{full}}} \sim F_{df_{\text{red}} - df_{\text{full}},\; df_{\text{full}}}$$
+      </div>
+      <ul class="concepts">
+        <li>$H_0$: $\beta_j = 0$ for all $j$ in subset $\mathcal{I}$; $H_a$: at least one $\beta_j \neq 0$</li>
+        <li>Numerator df = $p_{\text{full}} - p_{\text{red}}$ (number of extra predictors)</li>
+        <li>Denominator df = $n - p_{\text{full}} - 1$</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Overall F-Test (Special Case)</h3>
+      <p>Reduced model = intercept only → $\text{RSS}_{\text{red}} = \text{TSS}$, $df_{\text{red}} = n-1$.</p>
+      <div class="formula-box">
+        $$F = \frac{R^2 / p}{(1 - R^2)/(n - p - 1)}$$
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>$t^2 = F_{1,df}$ Relationship</h3>
+      <p>A partial F-test comparing models that differ by exactly <strong>one</strong> predictor is equivalent to the t-test on that predictor. If $T \sim t_{df}$, then $T^2 \sim F_{1,df}$. Same p-value.</p>
+    </div>
+
+    <div class="card">
+      <h3>Continuous Interactions</h3>
+      <p>For two continuous predictors $X_1, X_2$, include $X_1 \cdot X_2$ as a predictor. The effect of $X_1$ on $y$ now depends on the value of $X_2$.</p>
+      <div class="formula-box">
+        $$\frac{\partial \hat{y}}{\partial x_1} = \hat\beta_1 + \hat\beta_{12} \cdot x_2$$
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Linear Combinations of Slopes</h3>
+      <p>To get the slope on a predictor in a particular group (with interactions), define $\mathbf{a}$ and compute $\mathbf{a}^\top \hat\beta$.</p>
+      <div class="formula-box key">
+        $$\text{Var}(\mathbf{a}^\top \hat\beta) = \sigma_\varepsilon^2 \;\mathbf{a}^\top (X^\top X)^{-1} \mathbf{a}$$
+        $$\text{se}(\mathbf{a}^\top \hat\beta) = \hat\sigma_\varepsilon \sqrt{\mathbf{a}^\top (X^\top X)^{-1} \mathbf{a}}$$
+      </div>
+      <p>Cannot compute from <code>summary()</code> alone — need $\hat\sigma_\varepsilon$ and the design matrix $X$.</p>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">Practice Midterm 2 — Problem 2(b): Partial F-Test</div>
+      <div class="q-text">
+        Does the model <code>flavor ~ country + method</code> have better predictive performance than <code>flavor ~ country</code>? The ANOVA table gives $F = 2.54$, $p = 0.08$.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p><strong>Test:</strong> Partial F-test</p>
+          <p>$H_0$: $\beta_{\text{methodDry}} = \beta_{\text{methodWet}} = 0$; $H_a$: at least one $\neq 0$</p>
+          <p>$F = 2.54$, $p = 0.08 > 0.05$. <strong>Fail to reject</strong> $H_0$. Processing method does not significantly improve the model beyond country alone.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 4 — Problem 1(h): Partial F-Test in Practice</div>
+      <div class="q-text">
+        Is there evidence that <code>Income ~ Education * Millenial</code> (Analysis II) provides better predictive performance than <code>Income ~ Education</code> (Analysis I)?
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>Use <code>anova(lm.orig, mod1)</code>. RSS drops from 8625 to 3955 with 2 extra predictors.</p>
+          <p>$F = 174.75$, $p < 2.2 \times 10^{-16}$. Reject $H_0$. Adding Millenial and its interaction provides a <strong>significant improvement</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== LECTURE 9 ===================== -->
+<div class="section" id="lec9">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num c-green">9</div>
+    <h2>Conditional Expectations &amp; Prediction Intervals</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="card">
+      <h3>Inference for Conditional Expectations</h3>
+      <p>Estimate $\mu_{y|\tilde{x}} = E(y \mid x = \tilde{x}) = \tilde{x}^\top \beta$ with $\hat\mu_{y|\tilde{x}} = \tilde{x}^\top \hat\beta$.</p>
+      <div class="formula-box key">
+        $$\text{Var}(\hat\mu_{y|\tilde{x}}) = \sigma_\varepsilon^2 \;\tilde{x}^\top (X^\top X)^{-1} \tilde{x}$$
+      </div>
+      <h4>95% Confidence Interval</h4>
+      <div class="formula-box">
+        $$\hat\mu_{y|\tilde{x}} \;\pm\; t_{1-\alpha/2,\;n-p-1} \cdot \hat\sigma_\varepsilon \sqrt{\tilde{x}^\top (X^\top X)^{-1} \tilde{x}}$$
+      </div>
+      <p>Variance is smallest when $\tilde{x}$ is at the mean of predictors; increases as $\tilde{x}$ moves away.</p>
+    </div>
+
+    <div class="card">
+      <h3>Prediction Intervals</h3>
+      <p>For a <strong>future observation</strong> $y^* = \tilde{x}^\top \beta + \varepsilon^*$, we need to account for <em>two</em> sources of uncertainty:</p>
+      <ul class="concepts">
+        <li><strong>Estimation uncertainty</strong>: $\text{Var}(\hat\mu_{y|\tilde{x}})$</li>
+        <li><strong>Inherent variability</strong>: $\text{Var}(\varepsilon^*) = \sigma_\varepsilon^2$</li>
+      </ul>
+      <div class="formula-box key">
+        $$\text{Var}(y^* - \hat\mu_{y|\tilde{x}}) = \sigma_\varepsilon^2 \left(1 + \tilde{x}^\top (X^\top X)^{-1} \tilde{x}\right)$$
+      </div>
+      <h4>Prediction Interval Formula</h4>
+      <div class="formula-box key">
+        $$\hat\mu_{y|\tilde{x}} \;\pm\; t_{1-\alpha/2,\;n-p-1} \cdot \hat\sigma_\varepsilon \sqrt{1 + \tilde{x}^\top (X^\top X)^{-1} \tilde{x}}$$
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>PI vs CI: Key Differences</h3>
+      <table class="cheat">
+        <tr><th></th><th>Confidence Interval</th><th>Prediction Interval</th></tr>
+        <tr><td>Target</td><td>$\mu_{y|\tilde{x}} = E(y|\tilde{x})$ (population mean)</td><td>$y^*$ (individual future obs.)</td></tr>
+        <tr><td>Width factor</td><td>$\sqrt{\tilde{x}^\top(X^\top X)^{-1}\tilde{x}}$</td><td>$\sqrt{1 + \tilde{x}^\top(X^\top X)^{-1}\tilde{x}}$</td></tr>
+        <tr><td>Wider?</td><td>Narrower</td><td>Always wider</td></tr>
+        <tr><td>As $n \to \infty$</td><td>Width → 0</td><td>Width → $2 z_{1-\alpha/2} \sigma_\varepsilon$</td></tr>
+      </table>
+      <p><strong>Assumptions needed:</strong> Linearity provides the center; homoskedasticity and normality provide the width.</p>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">Practice Midterm 2 — Problem 1(c): Prediction Interval Calculation</div>
+      <div class="q-text">
+        Construct a 95% prediction interval for a future coffee from Guatemala.<br>
+        Given: $\hat\mu = 7.49$, $\tilde{x}^\top(X^\top X)^{-1}\tilde{x} = 0.0060$, $\hat\sigma_\varepsilon = 0.31$, $t_{0.975,616} = 1.96$.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>$$7.49 \pm 1.96 \times 0.31 \times \sqrt{1 + 0.0060} = 7.49 \pm 0.6098$$</p>
+          <p><strong>PI: [6.88, 8.10]</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 5 — Problem 1(e)&(f): PI vs CI in Practice</div>
+      <div class="q-text">
+        For a home with specified features, the 95% prediction interval is [$270,326, $408,570]. The 95% confidence interval for the mean is [$332,453, $346,442]. Explain the difference.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>Both intervals are centered at $339,448. The PI is much wider because it accounts for the variability of an <strong>individual</strong> future sale, while the CI only covers the <strong>average</strong> sale price for homes with those features. The PI has the extra "$1+$" inside the square root.</p>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== LECTURE 10 ===================== -->
+<div class="section" id="lec10">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num c-yellow">10</div>
+    <h2>Regression Diagnostics: Linearity &amp; Homoskedasticity</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="card">
+      <h3>Stronger Linear Model Assumptions</h3>
+      <ol style="padding-left:1.5rem;">
+        <li><strong>Linearity:</strong> $E(y|x_i) = x_i^\top \beta$</li>
+        <li><strong>Homoskedasticity:</strong> $\text{Var}(\varepsilon_i | x_i) = \sigma_\varepsilon^2$ for all $i$</li>
+        <li><strong>Normality:</strong> $\varepsilon_i \overset{\text{iid}}{\sim} N(0, \sigma_\varepsilon^2)$</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>The Hat Matrix</h3>
+      <div class="formula-box">
+        $$H = X(X^\top X)^{-1} X^\top \qquad \hat{y} = Hy \qquad e = (I - H)y$$
+      </div>
+      <h4>Properties (with intercept, $p$ predictors)</h4>
+      <ul class="concepts">
+        <li>$\frac{1}{n} \le h_{ii} \le 1$ and $\sum_i h_{ii} = p + 1$</li>
+        <li>$\text{Var}(e_i) = \sigma_\varepsilon^2(1 - h_{ii})$, $\text{Var}(\hat{y}_i) = \sigma_\varepsilon^2 h_{ii}$</li>
+        <li>$\text{Cov}(e_i, \hat{y}_j) = 0$ for all $i,j$ (under the weaker model)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Standardized (Internally Studentized) Residuals</h3>
+      <p>Raw residuals $e_i$ don't have equal variance. Fix:</p>
+      <div class="formula-box key">
+        $$r_i = \frac{e_i}{\hat\sigma_\varepsilon \sqrt{1 - h_{ii}}}$$
+      </div>
+      <p>Under the stronger model, $\text{Var}(r_i) \approx 1$ (not exactly, since $\hat\sigma_\varepsilon$ is estimated).</p>
+    </div>
+
+    <div class="card">
+      <h3>Diagnostic Plots</h3>
+      <h4>Assessing Linearity</h4>
+      <ul class="concepts">
+        <li>Plot $e_i$ vs. $\hat{y}_i$ or $e_i$ vs. each $x_{ij}$</li>
+        <li><strong>Good:</strong> amorphous blob, no pattern</li>
+        <li><strong>Bad:</strong> curvature, systematic positive/negative patches</li>
+      </ul>
+      <h4>Assessing Homoskedasticity</h4>
+      <ul class="concepts">
+        <li>Plot $r_i$ or $\sqrt{|r_i|}$ vs. $\hat{y}_i$ or $x_{ij}$</li>
+        <li><strong>Good:</strong> constant spread</li>
+        <li><strong>Bad:</strong> "fanning out" (spread increases with fitted values)</li>
+      </ul>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 6 — Problem 2(b): When PI Formula Breaks</div>
+      <div class="q-text">
+        Under a model where $y_i = x_i^\top\beta + \varepsilon_i \cdot \sqrt{\sum x_{ij}^2}$ (heteroskedastic errors), would you trust the standard 80% PI formula?
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p><strong>No.</strong> The standard PI formula assumes homoskedasticity — it uses a single $\hat\sigma_\varepsilon$ pooled across all observations. Here, the variance of $y^*$ depends on $\tilde{x}$, so the width of the interval should vary with $\tilde{x}$. The standard formula would produce intervals that are too wide for some $\tilde{x}$ and too narrow for others.</p>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== LECTURE 11 ===================== -->
+<div class="section" id="lec11">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num c-red">11</div>
+    <h2>Assessing Normality &amp; Leverage</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="card">
+      <h3>Normal QQ-Plots</h3>
+      <p>Assess normality of $\varepsilon_i$ using standardized residuals $r_i$.</p>
+      <h4>How to Read</h4>
+      <ul class="concepts">
+        <li><strong>Points on diagonal:</strong> approximately normal</li>
+        <li><strong>Convex (cup) curve:</strong> right-skewed</li>
+        <li><strong>Concave curve:</strong> left-skewed</li>
+        <li><strong>S-shape / heavy tails:</strong> points too high on right, too low on left</li>
+      </ul>
+      <p>Use standardized residuals (not raw) because they are identically distributed under the stronger model.</p>
+    </div>
+
+    <div class="card">
+      <h3>Leverage ($h_{ii}$)</h3>
+      <p>Leverage measures the potential for a point to influence the regression line. It depends <strong>only on predictors</strong>.</p>
+      <div class="formula-box key">
+        $$h_{ii} = x_i^\top (X^\top X)^{-1} x_i \qquad \hat{y}_i = h_{ii} y_i + \sum_{j \neq i} h_{ij} y_j$$
+      </div>
+      <ul class="concepts">
+        <li>If $h_{ii} = 1$: $\hat{y}_i = y_i$, $e_i = 0$ — the point perfectly fits itself</li>
+        <li>High leverage = point is far from the mean of predictors ("outlier in $X$")</li>
+        <li>High leverage alone doesn't mean the point is influencing the regression — it has the <em>potential</em> to do so</li>
+      </ul>
+      <div class="formula-box">
+        $$\text{Rule of thumb: } h_{ii} > \frac{2(p+1)}{n} \text{ is high leverage}$$
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">Practice Midterm 2 — Problem 4(b): Leverage of Unique Category</div>
+      <div class="q-text">
+        What would you expect the leverage value to be for a song with a unique value of <code>artist.terms</code> (a categorical predictor with 299 levels)?
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>$h_{ii} = 1$. Since this category has only one observation, the model has a dedicated coefficient that is set so $\hat{y}_i = y_i$ exactly. The point perfectly predicts itself.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 6 — Problem 1(c): Identifying High-Leverage Points</div>
+      <div class="q-text">
+        For a fuel usage regression with 51 observations and 4 predictors, identify the highest-leverage point and explain why it has high leverage.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>The threshold is $2(4+1)/51 = 0.196$. The highest-leverage point has predictor values far from the means of the other observations. You identify it from the histogram of leverages or the residuals-vs-leverage plot, then compare its predictor values to the dataset's means.</p>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== LECTURE 12 ===================== -->
+<div class="section" id="lec12">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num c-orange">12</div>
+    <h2>Detecting Outliers &amp; Influential Points</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="card">
+      <h3>Externally Studentized Residuals</h3>
+      <p>To test for outliers, exclude point $i$, refit, and check if $y_i$ is far from its new prediction $\hat{y}_{(i)}$.</p>
+      <div class="formula-box key">
+        $$t_i = \frac{y_i - \hat{y}_{(i)}}{\hat\sigma_{\varepsilon(i)} \sqrt{1 + x_i^\top(X_{(i)}^\top X_{(i)})^{-1} x_i}} \sim t_{n-p-2}$$
+      </div>
+      <p>Shortcut (no need to refit!):</p>
+      <div class="formula-box">
+        $$t_i = r_i \sqrt{\frac{n - (p+1) - 1}{n - (p+1) - r_i^2}}$$
+      </div>
+      <p>where $r_i$ is the internally studentized residual.</p>
+    </div>
+
+    <div class="card">
+      <h3>Testing for Outliers</h3>
+      <ul class="concepts">
+        <li>For a single observation: reject if $|t_i| > t_{1-\alpha/2,\; n-p-2}$</li>
+        <li>For all $n$ observations: use <strong>Bonferroni correction</strong> — test each at level $\alpha/n$</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Influential Points &amp; Cook's Distance</h3>
+      <p>A point is <strong>influential</strong> if removing it substantially changes the fitted values.</p>
+      <div class="formula-box key">
+        $$D_i = \frac{1}{p+1} \cdot r_i^2 \cdot \frac{h_{ii}}{1 - h_{ii}}$$
+      </div>
+      <ul class="concepts">
+        <li>Combines large residual ($r_i^2$) and high leverage ($h_{ii}$)</li>
+        <li><strong>Rule of thumb:</strong> $D_i > 1$ suggests an influential point</li>
+        <li>High leverage but small residual → not influential</li>
+        <li>Large residual but low leverage → usually not very influential</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>What to Do with Outliers</h3>
+      <ul class="concepts">
+        <li><strong>Good reasons to remove:</strong> data entry error, individual shouldn't be in sample</li>
+        <li><strong>Bad reasons:</strong> "slopes become more significant," "R² increases"</li>
+        <li>Outliers can indicate the model doesn't apply to the full population, or a lurking variable is needed</li>
+      </ul>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">Practice Midterm 2 — Problem 3(b): High Leverage Assessment</div>
+      <div class="q-text">
+        With 366 data points and 7 predictors, do any observations have high leverage? Are you concerned?
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>Threshold: $2(7+1)/366 = 0.044$. Yes, some points have leverage > 0.044. However, <strong>no high-leverage points are paired with large standardized residuals</strong>, so they are not influential (they follow the trend). No concern.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 6 — Problem 1(d): Bonferroni Outlier Testing</div>
+      <div class="q-text">
+        Test whether any of the 51 data points are outliers, controlling the familywise Type I error rate at 0.05.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>Compute externally studentized residuals $t_i$ for all 51 points. Compare each $|t_i|$ to $t_{1 - 0.05/(2 \cdot 51),\; 51-4-2} = t_{0.99951, 45}$. Equivalently, compute each p-value as $2P(T > |t_i|)$ and compare to $0.05/51 \approx 0.00098$. Only flag as outliers those that exceed this threshold.</p>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== LECTURE 13 ===================== -->
+<div class="section" id="lec13">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num c-pink">13</div>
+    <h2>Multicollinearity &amp; Multiple Hypothesis Tests</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <div class="card">
+      <h3>Multicollinearity</h3>
+      <p>Two or more predictors are strongly linearly related. Makes $X^\top X$ nearly singular.</p>
+      <h4>Statistical Consequences</h4>
+      <ul class="concepts">
+        <li>Imprecise / unstable $\hat\beta$ — small changes in data → big changes in estimates</li>
+        <li>t-tests fail to detect significant predictors (inflated standard errors)</li>
+        <li>Coefficients can have "weird" signs</li>
+        <li><strong>Hallmark:</strong> significant overall F-test but no individual t-tests are significant</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Diagnosing Multicollinearity</h3>
+      <h4>1. Pairwise Correlations</h4>
+      <p>Check for correlations > 0.9. Limitation: won't catch one predictor as a combination of many.</p>
+      <h4>2. Variance Inflation Factor (VIF)</h4>
+      <div class="formula-box key">
+        $$\text{VIF}_j = \frac{1}{1 - R_j^2}$$
+      </div>
+      <p>where $R_j^2$ = R² from regressing $x_j$ on all other predictors. <strong>Rule of thumb:</strong> VIF > 10 is concerning (some use 5).</p>
+      <h4>3. Condition Number</h4>
+      <div class="formula-box">
+        $$\kappa = \sqrt{\frac{\lambda_1}{\lambda_p}}$$
+      </div>
+      <p>where $\lambda_1, \lambda_p$ = largest and smallest eigenvalues of the <strong>predictor correlation matrix</strong>.</p>
+      <p><strong>Rules of thumb:</strong> $\kappa > 15$ moderate; $\kappa > 30$ severe.</p>
+    </div>
+
+    <div class="card">
+      <h3>VIF ↔ R² Relationship</h3>
+      <p>From HW6: given $\text{VIF}_j$, you can back out the $R^2$ of regressing $x_j$ on the other predictors:</p>
+      <div class="formula-box">
+        $$R_j^2 = 1 - \frac{1}{\text{VIF}_j}$$
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Partial Regression</h3>
+      <ol style="padding-left:1.5rem;">
+        <li>Regress $y$ on all predictors except $x_j$ → residuals $y_R$</li>
+        <li>Regress $x_j$ on all other predictors → residuals $x_{j,R}$</li>
+        <li>Simple regression of $y_R$ on $x_{j,R}$: slope = $\hat\beta_j$ from the full model</li>
+      </ol>
+      <p>Partial regression plot ($y_R$ vs $x_{j,R}$) can detect nonlinearity and influential points for that predictor.</p>
+    </div>
+
+    <div class="card">
+      <h3>Multiple Hypothesis Tests</h3>
+      <p>With $K$ tests at level $\alpha$: $P(\text{at least one Type I error}) \le K\alpha$ (can be as high as $1 - (1-\alpha)^K$).</p>
+      <h4>Bonferroni Correction</h4>
+      <div class="formula-box key">
+        $$\text{Test each hypothesis at level } \frac{\alpha}{K} \implies \text{FWER} \le \alpha$$
+      </div>
+      <h4>Holm-Bonferroni (Uniformly Better)</h4>
+      <p>Order p-values $p_1 \le p_2 \le \cdots \le p_K$:</p>
+      <ul class="concepts">
+        <li>Step $i$: Is $p_i \le \alpha / (K + 1 - i)$? If yes, reject and continue. If no, stop.</li>
+        <li>Rejects at least as many hypotheses as Bonferroni.</li>
+      </ul>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">Practice Midterm 2 — Problem 3(a): VIF &amp; Condition Number</div>
+      <div class="q-text">
+        All VIFs are near 1 (max 1.25) and the condition number is 1.76. Is there multicollinearity?
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p><strong>No.</strong> All VIFs are well below 5 (or 10), and the condition number is well below 15. Neither metric raises any concerns about multicollinearity.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">Practice Midterm 2 — Problem 4(a): Too Many Categories</div>
+      <div class="q-text">
+        A categorical predictor has 299 levels, some with very small frequencies. What problems could this cause?
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>Three main issues:</p>
+          <ul style="padding-left:1.5rem;margin-top:0.5rem;">
+            <li><strong>Near-multicollinearity:</strong> highly unstable OLS coefficients</li>
+            <li><strong>High variance:</strong> small-frequency categories have very imprecise coefficient estimates</li>
+            <li><strong>Unidentifiability:</strong> categories appearing only in test data (not training) have no estimable coefficient</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-q">
+      <div class="q-label">HW 6 — Problem 1(g): VIF to R²</div>
+      <div class="q-text">
+        Given VIF(Income) from a regression with Tax, Dlic, Income, and logMiles, calculate the $R^2$ from regressing Income on the other three predictors.
+      </div>
+      <div class="spoiler">
+        <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+        <div class="spoiler-content">
+          <p>$$R^2_{\text{Income}} = 1 - \frac{1}{\text{VIF}_{\text{Income}}}$$</p>
+          <p>Simply read off the VIF for Income from the <code>vif()</code> output and plug in.</p>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== PROOF PRACTICE ===================== -->
+<div class="section" id="proofs">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num" style="background:rgba(56,189,248,0.15);color:var(--accent);">P</div>
+    <h2>Proof Practice — Guided Derivations (Q5-Style)</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <p style="color:var(--text-muted);margin-bottom:1.5rem;">These multi-part problems mirror the style and difficulty of Practice Midterm 2, Problem 5. Each walks you through a proof step by step. Try each part before revealing the solution.</p>
+
+    <!-- ===== PROOF 1: Unbiasedness of OLS ===== -->
+    <div class="card">
+      <h3>Problem 1: Unbiasedness of the OLS Estimator</h3>
+      <p>Assume the weaker linear model: $\mathbf{y} = X\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ with $E(\boldsymbol{\varepsilon}) = \mathbf{0}$ and $\text{Var}(\boldsymbol{\varepsilon}) = \sigma_\varepsilon^2 I$. The OLS estimator is $\hat\beta = (X^\top X)^{-1}X^\top\mathbf{y}$. We will show that $\hat\beta$ is unbiased.</p>
+
+      <div class="example-q">
+        <div class="q-label">Part (a) — 4 points</div>
+        <div class="q-text">Substitute $\mathbf{y} = X\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ into the expression for $\hat\beta$ and simplify. Show that $\hat\beta = \boldsymbol{\beta} + (X^\top X)^{-1}X^\top\boldsymbol{\varepsilon}$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$\hat\beta = (X^\top X)^{-1}X^\top\mathbf{y} = (X^\top X)^{-1}X^\top(X\boldsymbol{\beta} + \boldsymbol{\varepsilon})$$
+            $$= (X^\top X)^{-1}X^\top X\boldsymbol{\beta} + (X^\top X)^{-1}X^\top\boldsymbol{\varepsilon}$$
+            $$= I\boldsymbol{\beta} + (X^\top X)^{-1}X^\top\boldsymbol{\varepsilon} = \boldsymbol{\beta} + (X^\top X)^{-1}X^\top\boldsymbol{\varepsilon}$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (b) — 3 points</div>
+        <div class="q-text">Using the result from (a), take expectations of both sides. What are $E(\boldsymbol{\beta})$ and $E((X^\top X)^{-1}X^\top\boldsymbol{\varepsilon})$? Conclude that $E(\hat\beta) = \boldsymbol{\beta}$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$E(\hat\beta) = E(\boldsymbol{\beta}) + E((X^\top X)^{-1}X^\top\boldsymbol{\varepsilon})$$
+            <p>$\boldsymbol{\beta}$ is a fixed (non-random) vector, so $E(\boldsymbol{\beta}) = \boldsymbol{\beta}$.</p>
+            <p>$(X^\top X)^{-1}X^\top$ is a fixed matrix (it depends only on $X$, which is treated as fixed), so:</p>
+            $$E((X^\top X)^{-1}X^\top\boldsymbol{\varepsilon}) = (X^\top X)^{-1}X^\top E(\boldsymbol{\varepsilon}) = (X^\top X)^{-1}X^\top \mathbf{0} = \mathbf{0}$$
+            <p>Therefore $E(\hat\beta) = \boldsymbol{\beta} + \mathbf{0} = \boldsymbol{\beta}$. The OLS estimator is unbiased.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (c) — 6 points</div>
+        <div class="q-text">Now derive $\text{Var}(\hat\beta)$. Using the result from (a) and the fact that $\text{Var}(A\mathbf{Z}) = A\,\text{Var}(\mathbf{Z})\,A^\top$ for a fixed matrix $A$, show that $\text{Var}(\hat\beta) = \sigma_\varepsilon^2(X^\top X)^{-1}$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>From part (a): $\hat\beta = \boldsymbol{\beta} + (X^\top X)^{-1}X^\top\boldsymbol{\varepsilon}$. Since $\boldsymbol{\beta}$ is a constant:</p>
+            $$\text{Var}(\hat\beta) = \text{Var}((X^\top X)^{-1}X^\top\boldsymbol{\varepsilon})$$
+            <p>Let $A = (X^\top X)^{-1}X^\top$. Then:</p>
+            $$\text{Var}(A\boldsymbol{\varepsilon}) = A\,\text{Var}(\boldsymbol{\varepsilon})\,A^\top = A(\sigma_\varepsilon^2 I)A^\top = \sigma_\varepsilon^2 AA^\top$$
+            $$= \sigma_\varepsilon^2 (X^\top X)^{-1}X^\top \left((X^\top X)^{-1}X^\top\right)^\top$$
+            $$= \sigma_\varepsilon^2 (X^\top X)^{-1}X^\top X ((X^\top X)^{-1})^\top$$
+            <p>Since $(X^\top X)^{-1}$ is symmetric: $((X^\top X)^{-1})^\top = (X^\top X)^{-1}$.</p>
+            $$= \sigma_\varepsilon^2 (X^\top X)^{-1} X^\top X (X^\top X)^{-1} = \sigma_\varepsilon^2 (X^\top X)^{-1}$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (d) — 4 points</div>
+        <div class="q-text">Identify which of the following are random and which are fixed: (i) $\boldsymbol{\beta}$, (ii) $\hat\beta$, (iii) $X$, (iv) $\boldsymbol{\varepsilon}$, (v) $(X^\top X)^{-1}$. Briefly justify each.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <ul style="padding-left:1.5rem;">
+              <li>$\boldsymbol{\beta}$: <strong>FIXED</strong> — the true (unknown) parameter vector.</li>
+              <li>$\hat\beta$: <strong>RANDOM</strong> — it depends on $\mathbf{y}$, which is random through $\boldsymbol{\varepsilon}$.</li>
+              <li>$X$: <strong>FIXED</strong> — the design matrix is treated as given/non-random.</li>
+              <li>$\boldsymbol{\varepsilon}$: <strong>RANDOM</strong> — the error terms are the source of randomness.</li>
+              <li>$(X^\top X)^{-1}$: <strong>FIXED</strong> — it is a function of $X$ only.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROOF 2: Var(e_i) ===== -->
+    <div class="card">
+      <h3>Problem 2: Variance of Residuals</h3>
+      <p>Under the weaker linear model, we have $\mathbf{e} = (I - H)\mathbf{y}$ where $H = X(X^\top X)^{-1}X^\top$. We will show that $\text{Var}(e_i) = \sigma_\varepsilon^2(1 - h_{ii})$.</p>
+
+      <div class="example-q">
+        <div class="q-label">Part (a) — 5 points</div>
+        <div class="q-text">Using $\mathbf{e} = (I - H)\mathbf{y}$ and $\text{Var}(\mathbf{y}) = \sigma_\varepsilon^2 I$, show that $\text{Var}(\mathbf{e}) = \sigma_\varepsilon^2(I - H)$.<br><em>Hint:</em> Use $\text{Var}(A\mathbf{Z}) = A\,\text{Var}(\mathbf{Z})\,A^\top$ and the fact that $(I - H)$ is symmetric and idempotent.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$\text{Var}(\mathbf{e}) = \text{Var}((I - H)\mathbf{y}) = (I - H)\,\text{Var}(\mathbf{y})\,(I - H)^\top$$
+            $$= (I - H)(\sigma_\varepsilon^2 I)(I - H)^\top = \sigma_\varepsilon^2(I - H)(I - H)^\top$$
+            <p>Since $(I - H)$ is symmetric: $(I - H)^\top = (I - H)$. So:</p>
+            $$= \sigma_\varepsilon^2(I - H)(I - H)$$
+            <p>Since $(I - H)$ is idempotent: $(I - H)^2 = (I - H)$. So:</p>
+            $$= \sigma_\varepsilon^2(I - H)$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (b) — 3 points</div>
+        <div class="q-text">What is the $(i,i)$ diagonal entry of the matrix $(I - H)$? Use this to conclude that $\text{Var}(e_i) = \sigma_\varepsilon^2(1 - h_{ii})$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>The $(i,i)$ entry of $I$ is 1, and the $(i,i)$ entry of $H$ is $h_{ii}$. So the $(i,i)$ entry of $(I - H)$ is $1 - h_{ii}$.</p>
+            <p>Since $\text{Var}(\mathbf{e}) = \sigma_\varepsilon^2(I - H)$, the variance of the $i$-th component is the $(i,i)$ entry:</p>
+            $$\text{Var}(e_i) = \sigma_\varepsilon^2(1 - h_{ii})$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (c) — 4 points</div>
+        <div class="q-text">Explain why $\text{Var}(e_i) \ne \sigma_\varepsilon^2$ in general. What does this imply about using raw residuals $e_i$ vs. standardized residuals $r_i = e_i / (\hat\sigma_\varepsilon\sqrt{1 - h_{ii}})$ for diagnostic plots?</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>$\text{Var}(e_i) = \sigma_\varepsilon^2(1 - h_{ii})$ depends on $h_{ii}$, which varies across observations. Points with higher leverage have smaller residual variance — the regression line is "pulled" closer to them, mechanically shrinking their residuals.</p>
+            <p>This means raw residuals are <strong>not identically distributed</strong>. Standardized residuals $r_i$ divide out the $(1 - h_{ii})$ factor, making them approximately identically distributed (variance $\approx 1$), which is essential for valid diagnostic plots.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (d) — 5 points</div>
+        <div class="q-text">Show that $\text{Cov}(\mathbf{e}, \hat{\mathbf{y}}) = \mathbf{0}$ (the zero matrix). That is, residuals and fitted values are uncorrelated under the weaker model.<br><em>Hint:</em> Write $\hat{\mathbf{y}} = H\mathbf{y}$ and use $\text{Cov}(A\mathbf{Z}, B\mathbf{Z}) = A\,\text{Var}(\mathbf{Z})\,B^\top$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$\text{Cov}(\mathbf{e}, \hat{\mathbf{y}}) = \text{Cov}((I - H)\mathbf{y},\; H\mathbf{y})$$
+            $$= (I - H)\,\text{Var}(\mathbf{y})\,H^\top = (I - H)(\sigma_\varepsilon^2 I)H^\top$$
+            $$= \sigma_\varepsilon^2(I - H)H$$
+            <p>Since $H$ is idempotent: $(I - H)H = H - H^2 = H - H = \mathbf{0}$.</p>
+            $$= \sigma_\varepsilon^2 \cdot \mathbf{0} = \mathbf{0}$$
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROOF 3: Gauss-Markov ===== -->
+    <div class="card">
+      <h3>Problem 3: The Gauss-Markov Theorem</h3>
+      <p>Under the weaker linear model, we will show that OLS is the Best Linear Unbiased Estimator (BLUE). Let $\tilde\beta = C\mathbf{y}$ be any linear unbiased estimator of $\boldsymbol{\beta}$, where $C$ is some fixed matrix. We write $C = (X^\top X)^{-1}X^\top + D$ for some matrix $D$.</p>
+
+      <div class="example-q">
+        <div class="q-label">Part (a) — 5 points</div>
+        <div class="q-text">Using the fact that $\tilde\beta = C\mathbf{y}$ is unbiased (i.e., $E(\tilde\beta) = \boldsymbol{\beta}$ for all $\boldsymbol{\beta}$), show that $CX = I$. Then show that $DX = \mathbf{0}$.<br><em>Hint:</em> Substitute $\mathbf{y} = X\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ and take expectations.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$E(\tilde\beta) = E(C\mathbf{y}) = CE(\mathbf{y}) = CE(X\boldsymbol{\beta} + \boldsymbol{\varepsilon}) = CX\boldsymbol{\beta} + C\mathbf{0} = CX\boldsymbol{\beta}$$
+            <p>For this to equal $\boldsymbol{\beta}$ for <em>all</em> $\boldsymbol{\beta}$, we need $CX = I$.</p>
+            <p>Now substitute $C = (X^\top X)^{-1}X^\top + D$:</p>
+            $$CX = ((X^\top X)^{-1}X^\top + D)X = (X^\top X)^{-1}X^\top X + DX = I + DX$$
+            <p>For $CX = I$, we need $DX = \mathbf{0}$.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (b) — 6 points</div>
+        <div class="q-text">Compute $\text{Var}(\tilde\beta)$ using $C = (X^\top X)^{-1}X^\top + D$ and show that:
+        $$\text{Var}(\tilde\beta) = \sigma_\varepsilon^2(X^\top X)^{-1} + \sigma_\varepsilon^2 DD^\top$$
+        <em>Hint:</em> Use $DX = \mathbf{0}$ and the symmetry of $(X^\top X)^{-1}$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$\text{Var}(\tilde\beta) = \text{Var}(C\mathbf{y}) = C\,\text{Var}(\mathbf{y})\,C^\top = \sigma_\varepsilon^2 CC^\top$$
+            <p>Expanding $CC^\top$:</p>
+            $$CC^\top = ((X^\top X)^{-1}X^\top + D)((X^\top X)^{-1}X^\top + D)^\top$$
+            $$= (X^\top X)^{-1}X^\top X(X^\top X)^{-1} + (X^\top X)^{-1}X^\top D^\top + DX(X^\top X)^{-1} + DD^\top$$
+            <p>The first term simplifies: $(X^\top X)^{-1}X^\top X(X^\top X)^{-1} = (X^\top X)^{-1}$.</p>
+            <p>Since $DX = \mathbf{0}$: the third term is $\mathbf{0}$. The second term: $(X^\top X)^{-1}(DX)^\top = (X^\top X)^{-1}\mathbf{0} = \mathbf{0}$.</p>
+            $$CC^\top = (X^\top X)^{-1} + DD^\top$$
+            $$\text{Var}(\tilde\beta) = \sigma_\varepsilon^2(X^\top X)^{-1} + \sigma_\varepsilon^2 DD^\top = \text{Var}(\hat\beta) + \sigma_\varepsilon^2 DD^\top$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (c) — 4 points</div>
+        <div class="q-text">Explain why $\sigma_\varepsilon^2 DD^\top$ is a positive semi-definite matrix. Conclude that $\text{Var}(\tilde\beta) - \text{Var}(\hat\beta)$ is positive semi-definite, proving that OLS has the smallest variance among all linear unbiased estimators.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>For any vector $\mathbf{v}$:</p>
+            $$\mathbf{v}^\top(DD^\top)\mathbf{v} = (D^\top\mathbf{v})^\top(D^\top\mathbf{v}) = \|D^\top\mathbf{v}\|^2 \ge 0$$
+            <p>So $DD^\top$ is positive semi-definite (PSD), and $\sigma_\varepsilon^2 DD^\top$ is PSD.</p>
+            <p>Therefore:</p>
+            $$\text{Var}(\tilde\beta) - \text{Var}(\hat\beta) = \sigma_\varepsilon^2 DD^\top \succeq \mathbf{0}$$
+            <p>This means for any individual coefficient $j$: $\text{Var}(\tilde\beta_j) \ge \text{Var}(\hat\beta_j)$. OLS achieves the smallest variance — it is BLUE.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROOF 4: CI Width Properties ===== -->
+    <div class="card">
+      <h3>Problem 4: Properties of Confidence and Prediction Intervals</h3>
+      <p>Under the stronger linear model, let $\tilde{x}$ be a fixed covariate vector. The CI for $E(y|\tilde{x})$ has width proportional to $\sqrt{\tilde{x}^\top(X^\top X)^{-1}\tilde{x}}$ and the PI has width proportional to $\sqrt{1 + \tilde{x}^\top(X^\top X)^{-1}\tilde{x}}$.</p>
+
+      <div class="example-q">
+        <div class="q-label">Part (a) — 5 points</div>
+        <div class="q-text">Show that $\text{Var}(\hat\mu_{y|\tilde{x}}) = \sigma_\varepsilon^2\,\tilde{x}^\top(X^\top X)^{-1}\tilde{x}$, where $\hat\mu_{y|\tilde{x}} = \tilde{x}^\top\hat\beta$.<br><em>Hint:</em> Use $\text{Var}(\mathbf{a}^\top\mathbf{Z}) = \mathbf{a}^\top\text{Var}(\mathbf{Z})\,\mathbf{a}$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$\text{Var}(\hat\mu_{y|\tilde{x}}) = \text{Var}(\tilde{x}^\top\hat\beta) = \tilde{x}^\top\text{Var}(\hat\beta)\,\tilde{x} = \tilde{x}^\top(\sigma_\varepsilon^2(X^\top X)^{-1})\tilde{x} = \sigma_\varepsilon^2\,\tilde{x}^\top(X^\top X)^{-1}\tilde{x}$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (b) — 6 points</div>
+        <div class="q-text">A future observation is $y^* = \tilde{x}^\top\boldsymbol{\beta} + \varepsilon^*$ where $\varepsilon^*$ is independent of $\varepsilon_1, \ldots, \varepsilon_n$. Show that:
+        $$\text{Var}(y^* - \hat\mu_{y|\tilde{x}}) = \sigma_\varepsilon^2(1 + \tilde{x}^\top(X^\top X)^{-1}\tilde{x})$$
+        <em>Hint:</em> For independent random variables, $\text{Var}(A - B) = \text{Var}(A) + \text{Var}(B)$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>$y^*$ depends on $\varepsilon^*$ while $\hat\mu_{y|\tilde{x}} = \tilde{x}^\top\hat\beta$ depends on $\varepsilon_1, \ldots, \varepsilon_n$. Since $\varepsilon^*$ is independent of $\varepsilon_1, \ldots, \varepsilon_n$, $y^*$ and $\hat\mu_{y|\tilde{x}}$ are independent.</p>
+            $$\text{Var}(y^* - \hat\mu_{y|\tilde{x}}) = \text{Var}(y^*) + \text{Var}(\hat\mu_{y|\tilde{x}})$$
+            <p>$\text{Var}(y^*) = \text{Var}(\tilde{x}^\top\boldsymbol{\beta} + \varepsilon^*) = \text{Var}(\varepsilon^*) = \sigma_\varepsilon^2$ (since $\tilde{x}^\top\boldsymbol{\beta}$ is fixed).</p>
+            $$= \sigma_\varepsilon^2 + \sigma_\varepsilon^2\,\tilde{x}^\top(X^\top X)^{-1}\tilde{x} = \sigma_\varepsilon^2\left(1 + \tilde{x}^\top(X^\top X)^{-1}\tilde{x}\right)$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (c) — 4 points</div>
+        <div class="q-text">As $n \to \infty$, the entries of $(X^\top X)^{-1}$ go to zero (assuming the predictors span the space well). What happens to the width of the CI? What happens to the width of the PI? Why can we never perfectly predict $y^*$?</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>As $n \to \infty$, $\tilde{x}^\top(X^\top X)^{-1}\tilde{x} \to 0$.</p>
+            <p><strong>CI width</strong> $\propto \sqrt{\tilde{x}^\top(X^\top X)^{-1}\tilde{x}} \to 0$. With infinite data, we can estimate $E(y|\tilde{x})$ perfectly.</p>
+            <p><strong>PI width</strong> $\propto \sqrt{1 + \tilde{x}^\top(X^\top X)^{-1}\tilde{x}} \to \sqrt{1} = 1$, so PI width $\to 2\,z_{1-\alpha/2}\,\sigma_\varepsilon$. It never reaches zero.</p>
+            <p>Even with perfect knowledge of $\boldsymbol{\beta}$, the future $y^*$ has irreducible noise $\varepsilon^*$ with variance $\sigma_\varepsilon^2$ that no amount of data can remove.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (d) — 5 points</div>
+        <div class="q-text">Under the heteroskedastic model $y_i = x_i^\top\boldsymbol{\beta} + \varepsilon_i \cdot g(x_i)$ where $g(x_i) > 0$ varies with $x_i$ and $\varepsilon_i \overset{iid}{\sim} N(0, \sigma_\varepsilon^2)$, would you trust the standard PI formula from lecture? Explain.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p><strong>No.</strong> The standard PI formula uses a single $\hat\sigma_\varepsilon$ pooled across all observations. It assumes $\text{Var}(y_i | x_i) = \sigma_\varepsilon^2$ for all $i$.</p>
+            <p>Under this model, $\text{Var}(y_i | x_i) = \sigma_\varepsilon^2 \cdot g(x_i)^2$, which varies with $x_i$. The PI width should depend on $\tilde{x}$ through $g(\tilde{x})$, but the standard formula doesn't account for this.</p>
+            <p>The result: PIs will be too wide for some $\tilde{x}$ values and too narrow for others. The claimed coverage (e.g., 95%) won't hold pointwise.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROOF 5: Idempotency and Trace ===== -->
+    <div class="card">
+      <h3>Problem 5: Hat Matrix Properties and $\text{tr}(H) = p + 1$</h3>
+      <p>Let $H = X(X^\top X)^{-1}X^\top$ where $X$ is $n \times (p+1)$ with full column rank. We will prove several fundamental properties.</p>
+
+      <div class="example-q">
+        <div class="q-label">Part (a) — 4 points</div>
+        <div class="q-text">Show that $H$ is idempotent: $H^2 = H$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$H^2 = [X(X^\top X)^{-1}X^\top][X(X^\top X)^{-1}X^\top]$$
+            $$= X(X^\top X)^{-1}(X^\top X)(X^\top X)^{-1}X^\top$$
+            $$= X(X^\top X)^{-1}X^\top = H$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (b) — 4 points</div>
+        <div class="q-text">Show that $H$ is symmetric: $H^\top = H$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$H^\top = (X(X^\top X)^{-1}X^\top)^\top = (X^\top)^\top ((X^\top X)^{-1})^\top X^\top = X((X^\top X)^\top)^{-1}X^\top$$
+            <p>Since $X^\top X$ is symmetric: $(X^\top X)^\top = X^\top X$, so $((X^\top X)^\top)^{-1} = (X^\top X)^{-1}$.</p>
+            $$H^\top = X(X^\top X)^{-1}X^\top = H$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (c) — 6 points</div>
+        <div class="q-text">Show that $\text{tr}(H) = p + 1$, and therefore $\sum_{i=1}^n h_{ii} = p + 1$.<br><em>Hint:</em> Use the cyclic property of trace: $\text{tr}(ABC) = \text{tr}(CAB)$. Note that $(X^\top X)^{-1}(X^\top X) = I_{p+1}$.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$\text{tr}(H) = \text{tr}(X(X^\top X)^{-1}X^\top)$$
+            <p>By the cyclic property, $\text{tr}(ABC) = \text{tr}(CAB)$. Let $A = X$, $B = (X^\top X)^{-1}$, $C = X^\top$:</p>
+            $$= \text{tr}(X^\top X (X^\top X)^{-1}) = \text{tr}(I_{p+1}) = p + 1$$
+            <p>Since $\text{tr}(H) = \sum_{i=1}^n h_{ii}$, we have $\sum h_{ii} = p + 1$.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (d) — 5 points</div>
+        <div class="q-text">Using idempotency, show that $0 \le h_{ii} \le 1$ for all $i$. Also show that $h_{ii} = 1/n$ when the model has intercept only ($X = \mathbf{1}$, the column of ones).<br><em>Hint:</em> For the bound, write $h_{ii} = \mathbf{e}_i^\top H \mathbf{e}_i = \mathbf{e}_i^\top H^2 \mathbf{e}_i = \|H\mathbf{e}_i\|^2$, and note that $\|H\mathbf{e}_i\|^2 \le \|\mathbf{e}_i\|^2 = 1$ since $H$ is a projection.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>$h_{ii} = \mathbf{e}_i^\top H \mathbf{e}_i$ where $\mathbf{e}_i$ is the $i$-th standard basis vector. By idempotency and symmetry:</p>
+            $$h_{ii} = \mathbf{e}_i^\top H^2 \mathbf{e}_i = (H\mathbf{e}_i)^\top(H\mathbf{e}_i) = \|H\mathbf{e}_i\|^2 \ge 0$$
+            <p>Since $H$ is an orthogonal projection onto $\text{col}(X)$, for any vector $\mathbf{v}$: $\|H\mathbf{v}\| \le \|\mathbf{v}\|$. So $h_{ii} = \|H\mathbf{e}_i\|^2 \le \|\mathbf{e}_i\|^2 = 1$.</p>
+            <p><strong>Intercept only:</strong> $X = \mathbf{1}_n$ (the $n \times 1$ vector of ones). Then:</p>
+            $$H = \mathbf{1}(\mathbf{1}^\top\mathbf{1})^{-1}\mathbf{1}^\top = \mathbf{1}\cdot\frac{1}{n}\cdot\mathbf{1}^\top = \frac{1}{n}\mathbf{1}\mathbf{1}^\top$$
+            <p>So $h_{ii} = 1/n$ for all $i$, and $\sum h_{ii} = n \cdot (1/n) = 1 = p + 1$ (since $p = 0$). ✓</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROOF 6: Prediction Error (Variant) ===== -->
+    <div class="card">
+      <h3>Problem 6: MSE Decomposition of $\hat\beta$</h3>
+      <p>For any estimator $\tilde\beta$ of $\boldsymbol{\beta}$, the Mean Squared Error is $\text{MSE}(\tilde\beta) = E(\|\tilde\beta - \boldsymbol{\beta}\|^2)$. We will show the bias-variance decomposition.</p>
+
+      <div class="example-q">
+        <div class="q-label">Part (a) — 4 points</div>
+        <div class="q-text">Define $\text{Bias}(\tilde\beta) = E(\tilde\beta) - \boldsymbol{\beta}$. By adding and subtracting $E(\tilde\beta)$, show that:
+        $$\text{MSE}(\tilde\beta) = \|\text{Bias}(\tilde\beta)\|^2 + E(\|\tilde\beta - E(\tilde\beta)\|^2)$$
+        <em>Hint:</em> Expand $\|\tilde\beta - \boldsymbol{\beta}\|^2 = \|(\tilde\beta - E(\tilde\beta)) + (E(\tilde\beta) - \boldsymbol{\beta})\|^2$ and show the cross term vanishes.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            $$\|\tilde\beta - \boldsymbol{\beta}\|^2 = \|(\tilde\beta - E(\tilde\beta)) + (E(\tilde\beta) - \boldsymbol{\beta})\|^2$$
+            $$= \|\tilde\beta - E(\tilde\beta)\|^2 + 2(\tilde\beta - E(\tilde\beta))^\top(E(\tilde\beta) - \boldsymbol{\beta}) + \|E(\tilde\beta) - \boldsymbol{\beta}\|^2$$
+            <p>Taking expectations: $E(\tilde\beta - E(\tilde\beta)) = \mathbf{0}$, so the cross term vanishes:</p>
+            $$E[2(\tilde\beta - E(\tilde\beta))^\top(E(\tilde\beta) - \boldsymbol{\beta})] = 2\,E(\tilde\beta - E(\tilde\beta))^\top(E(\tilde\beta) - \boldsymbol{\beta}) = 2\,\mathbf{0}^\top(E(\tilde\beta) - \boldsymbol{\beta}) = 0$$
+            <p>And $E(\|E(\tilde\beta) - \boldsymbol{\beta}\|^2) = \|E(\tilde\beta) - \boldsymbol{\beta}\|^2 = \|\text{Bias}\|^2$ since the bias is a fixed vector.</p>
+            $$\text{MSE}(\tilde\beta) = \|\text{Bias}(\tilde\beta)\|^2 + E(\|\tilde\beta - E(\tilde\beta)\|^2)$$
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (b) — 3 points</div>
+        <div class="q-text">Identify the two terms in the decomposition. What does $E(\|\tilde\beta - E(\tilde\beta)\|^2)$ equal in terms of a familiar quantity?</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>The decomposition is: <strong>MSE = Bias² + Variance</strong></p>
+            <p>$\|\text{Bias}(\tilde\beta)\|^2 = \|E(\tilde\beta) - \boldsymbol{\beta}\|^2$ is the squared bias.</p>
+            <p>$E(\|\tilde\beta - E(\tilde\beta)\|^2) = \text{tr}(\text{Var}(\tilde\beta))$ is the total variance (sum of variances of all components).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-q">
+        <div class="q-label">Part (c) — 4 points</div>
+        <div class="q-text">For the OLS estimator $\hat\beta$ under the weaker linear model, what is $\text{Bias}(\hat\beta)$? Simplify the MSE in this case.</div>
+        <div class="spoiler">
+          <button class="spoiler-btn" onclick="toggleSpoiler(this)">Show Solution ▸</button>
+          <div class="spoiler-content">
+            <p>We showed in Problem 1 that $E(\hat\beta) = \boldsymbol{\beta}$, so $\text{Bias}(\hat\beta) = \mathbf{0}$.</p>
+            $$\text{MSE}(\hat\beta) = \|\mathbf{0}\|^2 + \text{tr}(\text{Var}(\hat\beta)) = \text{tr}(\sigma_\varepsilon^2(X^\top X)^{-1}) = \sigma_\varepsilon^2\,\text{tr}((X^\top X)^{-1})$$
+            <p>For unbiased estimators, MSE = Variance. This is why Gauss-Markov says OLS minimizes variance among linear unbiased estimators — equivalently, it minimizes MSE in this class.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== CHEAT SHEET ===================== -->
+<div class="section" id="cheatsheet">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num" style="background:rgba(255,255,255,0.08);color:#fff;">★</div>
+    <h2>Quick-Reference Cheat Sheet</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+
+    <!-- ===== FOUNDATIONS (L1-4) ===== -->
+    <div class="card">
+      <h3>The Linear Model (L1–4)</h3>
+      <h4>Weaker Linear Model</h4>
+      <div class="formula-box">
+        $$\mathbf{y} = X\boldsymbol{\beta} + \boldsymbol{\varepsilon}, \quad E(\boldsymbol{\varepsilon}) = \mathbf{0}, \quad \text{Var}(\boldsymbol{\varepsilon}) = \sigma_\varepsilon^2 I$$
+      </div>
+      <h4>Stronger Linear Model</h4>
+      <div class="formula-box">
+        $$\boldsymbol{\varepsilon} \sim \text{MVN}(\mathbf{0},\; \sigma_\varepsilon^2 I)$$
+      </div>
+      <p>$X$: $n \times (p{+}1)$ design matrix, first column $= \mathbf{1}$.</p>
+      <ul class="concepts">
+        <li><strong>Weaker gives us:</strong> unbiased $\hat\beta$, $\text{Var}(\hat\beta)$, Gauss-Markov (BLUE)</li>
+        <li><strong>Stronger adds:</strong> hypothesis tests, CIs, partial F, prediction intervals</li>
+      </ul>
+      <h4>Random Vector Properties</h4>
+      <p>$E(A\mathbf{Z} + \mathbf{b}) = AE(\mathbf{Z}) + \mathbf{b}$, &ensp; $\text{Var}(A\mathbf{Z} + \mathbf{b}) = A\,\text{Var}(\mathbf{Z})\,A^\top$</p>
+      <p>$\text{Var}(\mathbf{Z}) = E[\mathbf{Z}\mathbf{Z}^\top] - E[\mathbf{Z}]\,E[\mathbf{Z}]^\top$</p>
+    </div>
+
+    <!-- ===== OLS ESTIMATION (L2-4) ===== -->
+    <div class="card">
+      <h3>OLS Estimation (L2–4)</h3>
+      <div class="formula-box key">
+        $$\hat\beta = (X^\top X)^{-1} X^\top \mathbf{y} = \arg\min_{\tilde\beta}\|\mathbf{y} - X\tilde\beta\|^2$$
+      </div>
+      <p>Linear in $\mathbf{y}$: $\hat\beta = A\mathbf{y}$, &ensp; $A = (X^\top X)^{-1}X^\top$.</p>
+      <h4>Under Weaker Model</h4>
+      <p>$E(\hat\beta) = \boldsymbol{\beta}$ (unbiased), &ensp; $\text{Var}(\hat\beta) = \sigma_\varepsilon^2(X^\top X)^{-1}$</p>
+      <p>$\text{Var}(\hat\beta_j) = \sigma_\varepsilon^2[(X^\top X)^{-1}]_{(j+1),(j+1)}$</p>
+      <h4>Under Stronger Model</h4>
+      <p>$\hat\beta \sim \text{MVN}(\boldsymbol{\beta},\; \sigma_\varepsilon^2(X^\top X)^{-1})$</p>
+      <p>$\hat\beta_j \sim N(\beta_j,\; \sigma_\varepsilon^2[(X^\top X)^{-1}]_{(j+1),(j+1)})$</p>
+      <h4>Gauss-Markov Theorem (BLUE)</h4>
+      <p>Under the weaker model, OLS has the smallest MSE among all linear unbiased estimators. Key: any linear $\tilde\beta = A\mathbf{y}$ with $A = (X^\top X)^{-1}X^\top + D$, $DX = \mathbf{0}$ $\Rightarrow$ $\text{Var}(\tilde\beta) = \text{Var}(\hat\beta) + \sigma_\varepsilon^2 DD^\top$.</p>
+    </div>
+
+    <!-- ===== HAT MATRIX (L4, 10) ===== -->
+    <div class="card">
+      <h3>Hat Matrix &amp; Projections (L4, 10)</h3>
+      <div class="formula-box key">
+        $$H = X(X^\top X)^{-1}X^\top, \quad \hat{\mathbf{y}} = H\mathbf{y}, \quad \mathbf{e} = (I - H)\mathbf{y}$$
+      </div>
+      <h4>Key Matrix Identities</h4>
+      <ul class="concepts">
+        <li>$H^\top = H$, $H^2 = H$ (symmetric, idempotent)</li>
+        <li>$(I{-}H)^\top = I{-}H$, $(I{-}H)^2 = I{-}H$</li>
+        <li>$H(I{-}H) = \mathbf{0}$, &ensp; $X^\top\mathbf{e} = \mathbf{0}$</li>
+        <li>$H$ projects onto $\text{col}(X)$; $(I{-}H)$ projects onto $\text{col}(X)^\perp$</li>
+      </ul>
+      <h4>Diagonal Elements</h4>
+      <p>$1/n \le h_{ii} \le 1$, &ensp; $\sum h_{ii} = p{+}1$, &ensp; $\hat{y}_i = h_{ii}y_i + \sum_{j \ne i} h_{ij}y_j$</p>
+      <h4>Under Weaker Model</h4>
+      <p>$E(\mathbf{e}) = \mathbf{0}$, &ensp; $E(\hat{\mathbf{y}}) = X\boldsymbol{\beta}$</p>
+      <p>$\text{Var}(\mathbf{e}) = \sigma_\varepsilon^2(I{-}H)$, &ensp; $\text{Var}(\hat{\mathbf{y}}) = \sigma_\varepsilon^2 H$</p>
+      <p>$\text{Var}(e_i) = \sigma_\varepsilon^2(1{-}h_{ii})$, &ensp; $\text{Var}(\hat{y}_i) = \sigma_\varepsilon^2 h_{ii}$</p>
+      <p>$\text{Cov}(e_i, \hat{y}_j) = 0$ for all $i,j$, &ensp; $\text{Cov}(e_i, e_j) = -\sigma_\varepsilon^2 h_{ij}$</p>
+      <h4>Under Stronger Model</h4>
+      <p>$\mathbf{e} \perp\!\!\!\perp \hat{\mathbf{y}}$ (independent). &ensp; $e_i \sim N(0, \sigma_\varepsilon^2(1{-}h_{ii}))$. &ensp; If $h_{ii} = 1$: $\hat{y}_i = y_i$, $e_i = 0$.</p>
+      <h4>Algebraic (always hold with intercept)</h4>
+      <p>$\bar{e} = 0$, &ensp; $\text{cov}(e, \hat{y}) = 0$, &ensp; $\text{cov}(e, x_j) = 0$</p>
+    </div>
+
+    <!-- ===== R² AND SIGMA (L4-5) ===== -->
+    <div class="card">
+      <h3>$R^2$ and Sums of Squares (L4)</h3>
+      <p>$\text{TSS} = \sum(y_i - \bar{y})^2$, &ensp; $\text{RSS} = \sum e_i^2$, &ensp; $\text{SSreg} = \sum(\hat{y}_i - \bar{y})^2$</p>
+      <p>$\text{TSS} = \text{SSreg} + \text{RSS}$ (with intercept)</p>
+      <div class="formula-box">
+        $$R^2 = 1 - \frac{\text{RSS}}{\text{TSS}} = \text{cor}(\hat{y}, y)^2$$
+      </div>
+      <p>Simple regression: $R^2 = \text{cor}(x, y)^2$. $R^2$ never decreases when adding predictors.</p>
+      <h4>Estimating $\sigma_\varepsilon$ (L5)</h4>
+      <div class="formula-box">
+        $$\hat\sigma_\varepsilon^2 = \frac{\text{RSS}}{n - p - 1} \qquad \text{se}(\hat\beta_j) = \hat\sigma_\varepsilon\sqrt{[(X^\top X)^{-1}]_{(j+1),(j+1)}}$$
+      </div>
+      <p>df $= n - p - 1$ ($p{+}1$ constraints from $\mathbf{e}^\top X = \mathbf{0}$).</p>
+    </div>
+
+    <!-- ===== HYPOTHESIS TESTS (L5-6) ===== -->
+    <div class="card">
+      <h3>Hypothesis Tests (L5–6)</h3>
+      <h4>t-test for $\beta_j$</h4>
+      <p>$H_0: \beta_j = c$.</p>
+      <div class="formula-box key">
+        $$t = \frac{\hat\beta_j - c}{\text{se}(\hat\beta_j)} \sim t_{n-p-1} \quad \text{under } H_0$$
+      </div>
+      <p>$H_a: \ne c$: $p = 2P(T \ge |t|)$. &ensp; $> c$: $P(T \ge t)$. &ensp; $< c$: $P(T \le t)$. Reject if $p \le \alpha$.</p>
+      <h4>CI for $\beta_j$</h4>
+      <div class="formula-box">
+        $$\hat\beta_j \;\pm\; t_{1-\alpha/2,\;n-p-1} \cdot \text{se}(\hat\beta_j)$$
+      </div>
+      <p><strong>Duality:</strong> reject $H_0: \beta_j = c$ at level $\alpha$ $\iff$ $c \notin$ the $100(1{-}\alpha)\%$ CI.</p>
+      <h4>Overall F-test</h4>
+      <p>$H_0: \beta_1 = \cdots = \beta_p = 0$, &ensp; $H_a$: at least one $\ne 0$.</p>
+      <div class="formula-box key">
+        $$F = \frac{R^2 / p}{(1 - R^2)/(n - p - 1)} = \frac{(\text{TSS} - \text{RSS})/p}{\text{RSS}/(n - p - 1)} \sim F_{p,\,n-p-1}$$
+      </div>
+      <p>Always right-tail. $p$-value $= P(F_{p,n-p-1} \ge F_{\text{obs}})$.</p>
+      <h4>Partial F-test</h4>
+      <p>Full vs. reduced (nested). $H_0$: subset of $\beta$'s $= 0$.</p>
+      <div class="formula-box key">
+        $$F = \frac{(\text{RSS}_R - \text{RSS}_F)/(df_R - df_F)}{\text{RSS}_F / df_F} \sim F_{df_R - df_F,\;df_F}$$
+      </div>
+      <p>Num. df $= p_F - p_R$. Overall F: reduced $=$ intercept only.</p>
+      <p><strong>Key:</strong> $t^2_{df} = F_{1,df}$ — partial F for one predictor $=$ t-test.</p>
+    </div>
+
+    <!-- ===== CATEGORICAL & INTERACTIONS (L7-8) ===== -->
+    <div class="card">
+      <h3>Categorical Variables &amp; Interactions (L7–8)</h3>
+      <p>$G$ levels $\to$ $G{-}1$ dummy variables. Omitted $=$ reference.</p>
+      <p>$\hat\beta_j$ = est. diff. in $E(y)$ between category $j$ and reference, <em>holding other vars fixed</em>. Why not $G$ dummies? $\sum$ dummies $= \mathbf{1}$ $\Rightarrow$ $X^\top X$ singular.</p>
+      <p>One categorical + overall F = <strong>ANOVA</strong>: $H_0: \mu_1 = \cdots = \mu_G$.</p>
+      <h4>Interactions</h4>
+      <p><strong>Cat × Cont:</strong> $x_i \cdot \mathbf{1}\{z = c\}$ gives group-specific slopes. Full interactions $=$ separate regressions per group.</p>
+      <p><strong>Cont × Cont:</strong> include $x_1 x_2$ as predictor:</p>
+      <div class="formula-box">
+        $$\frac{\partial\hat{y}}{\partial x_1} = \hat\beta_1 + \hat\beta_{12}\,x_2$$
+      </div>
+      <p><strong>Simpson's Paradox:</strong> Aggregated trend reverses within subgroups when a confounder is ignored.</p>
+      <h4>Linear Combinations (L8)</h4>
+      <div class="formula-box key">
+        $$E(\mathbf{a}^\top\hat\beta) = \mathbf{a}^\top\boldsymbol{\beta} \qquad \text{Var}(\mathbf{a}^\top\hat\beta) = \sigma_\varepsilon^2\,\mathbf{a}^\top(X^\top X)^{-1}\mathbf{a}$$
+      </div>
+      <div class="formula-box">
+        $$\text{se}(\mathbf{a}^\top\hat\beta) = \hat\sigma_\varepsilon\sqrt{\mathbf{a}^\top(X^\top X)^{-1}\mathbf{a}}$$
+      </div>
+      <p>Cannot compute from <code>summary()</code> alone — need $\hat\sigma_\varepsilon$ and design matrix $X$.</p>
+    </div>
+
+    <!-- ===== KEY FORMULAS (L9-13) ===== -->
+    <div class="card">
+      <h3>Inference &amp; Diagnostics Formulas (L9–13)</h3>
+      <table class="cheat">
+        <tr><th>What</th><th>Formula</th></tr>
+        <tr><td>CI for $\mu_{y|\tilde{x}}$</td><td>$\tilde{x}^\top\hat\beta \pm t_{1-\alpha/2,\,n-p-1} \cdot \hat\sigma_\varepsilon \sqrt{\tilde{x}^\top(X^\top X)^{-1}\tilde{x}}$</td></tr>
+        <tr><td>Prediction Interval</td><td>$\tilde{x}^\top\hat\beta \pm t_{1-\alpha/2,\,n-p-1} \cdot \hat\sigma_\varepsilon \sqrt{1 + \tilde{x}^\top(X^\top X)^{-1}\tilde{x}}$</td></tr>
+        <tr><td>Internally Studentized</td><td>$r_i = e_i / [\hat\sigma_\varepsilon\sqrt{1 - h_{ii}}]$</td></tr>
+        <tr><td>Ext. Studentized</td><td>$t_i = r_i\sqrt{(n{-}p{-}2)/(n{-}p{-}1{-}r_i^2)} \sim t_{n-p-2}$</td></tr>
+        <tr><td>Cook's Distance</td><td>$D_i = \frac{1}{p+1} r_i^2 \frac{h_{ii}}{1 - h_{ii}}$</td></tr>
+        <tr><td>Leverage</td><td>$h_{ii} = x_i^\top(X^\top X)^{-1}x_i$</td></tr>
+        <tr><td>VIF</td><td>$\text{VIF}_j = 1/(1 - R_j^2)$</td></tr>
+        <tr><td>Condition Number</td><td>$\kappa = \sqrt{\lambda_{\max} / \lambda_{\min}}$ of predictor corr. matrix</td></tr>
+        <tr><td>Bonferroni</td><td>Test each at $\alpha/K$ → FWER $\le \alpha$</td></tr>
+      </table>
+    </div>
+
+    <!-- ===== RULES OF THUMB ===== -->
+    <div class="card">
+      <h3>Rules of Thumb</h3>
+      <table class="cheat">
+        <tr><th>Metric</th><th>Threshold</th><th>Meaning</th></tr>
+        <tr><td>Leverage $h_{ii}$</td><td>$> 2(p+1)/n$</td><td>High leverage</td></tr>
+        <tr><td>Cook's Distance $D_i$</td><td>$> 1$</td><td>Influential point</td></tr>
+        <tr><td>VIF</td><td>$> 10$ (or 5)</td><td>Multicollinearity concern</td></tr>
+        <tr><td>Condition Number $\kappa$</td><td>$> 15$ moderate, $> 30$ severe</td><td>Multicollinearity</td></tr>
+        <tr><td>$|r_i|$</td><td>$> 2$ or $3$</td><td>Possible outlier</td></tr>
+      </table>
+    </div>
+
+    <!-- ===== WHICH TEST ===== -->
+    <div class="card">
+      <h3>Which Test to Use?</h3>
+      <table class="cheat">
+        <tr><th>Question</th><th>Test</th></tr>
+        <tr><td>Is a single $\beta_j = 0$?</td><td>t-test</td></tr>
+        <tr><td>Is a subset of $\beta$'s $= 0$?</td><td>Partial F-test</td></tr>
+        <tr><td>Are all slopes $= 0$?</td><td>Overall F-test</td></tr>
+        <tr><td>Are group means equal?</td><td>ANOVA (Overall F with dummies)</td></tr>
+        <tr><td>Is a point an outlier?</td><td>Externally studentized $t_i$</td></tr>
+        <tr><td>Multiple tests at once?</td><td>Holm-Bonferroni</td></tr>
+      </table>
+    </div>
+
+    <!-- ===== DIAGNOSTICS SUMMARY ===== -->
+    <div class="card">
+      <h3>Diagnostic Plots Summary</h3>
+      <table class="cheat">
+        <tr><th>Assumption</th><th>Plot</th><th>Good</th><th>Bad</th></tr>
+        <tr><td>Linearity</td><td>$e_i$ vs $\hat{y}_i$ or $x_j$</td><td>Amorphous blob</td><td>Curvature</td></tr>
+        <tr><td>Homoskedasticity</td><td>$r_i$ or $\sqrt{|r_i|}$ vs $\hat{y}_i$</td><td>Constant spread</td><td>Fanning</td></tr>
+        <tr><td>Normality</td><td>QQ-plot of $r_i$</td><td>On diagonal</td><td>Curvature / S-shape</td></tr>
+      </table>
+      <h4>QQ-Plot Patterns</h4>
+      <ul class="concepts">
+        <li><strong>Convex (cup):</strong> right-skewed</li>
+        <li><strong>Concave:</strong> left-skewed</li>
+        <li><strong>S-shape:</strong> heavy tails</li>
+      </ul>
+      <h4>Consequences of Violations</h4>
+      <ul class="concepts">
+        <li><strong>Nonlinearity:</strong> biased predictions</li>
+        <li><strong>Heteroskedasticity:</strong> wrong SEs, $p$-values, CI/PI widths</li>
+        <li><strong>Non-normality:</strong> $t$/$F$ distributions invalid, coverage $\ne 1{-}\alpha$</li>
+      </ul>
+    </div>
+
+    <!-- ===== PREDICTION ERROR DECOMPOSITION ===== -->
+    <div class="card">
+      <h3>Prediction Error Decomposition</h3>
+      <div class="formula-box key">
+        $$E\!\left[(y^* - \tilde{x}^\top\hat\beta)^2\right] = \underbrace{\text{Var}(\varepsilon^*)}_{\text{irreducible noise}} + \underbrace{\text{Var}(\tilde{x}^\top\hat\beta)}_{\text{estimation error}}$$
+      </div>
+      <p>Proof: add/subtract $\tilde{x}^\top\boldsymbol{\beta}$; cross term $= 0$ by independence of $y^*$ and $\hat\beta$ plus $E(\varepsilon^*) = 0$ and $E(\hat\beta) = \boldsymbol{\beta}$.</p>
+    </div>
+
+    <!-- ===== KEY R COMMANDS ===== -->
+    <div class="card">
+      <h3>Key R Commands</h3>
+      <table class="cheat">
+        <tr><th>Command</th><th>What it does</th></tr>
+        <tr><td><code>lm(y ~ x1 + x2, data)</code></td><td>Fit linear model</td></tr>
+        <tr><td><code>summary(lm)</code></td><td>Coefficients, SEs, t-tests, $R^2$, overall F</td></tr>
+        <tr><td><code>confint(lm, level=0.95)</code></td><td>CIs for all $\beta_j$</td></tr>
+        <tr><td><code>anova(reduced, full)</code></td><td>Partial F-test</td></tr>
+        <tr><td><code>predict(lm, newdata, interval="confidence")</code></td><td>CI for $E(y|\tilde{x})$</td></tr>
+        <tr><td><code>predict(lm, newdata, interval="prediction")</code></td><td>PI for future $y^*$</td></tr>
+        <tr><td><code>hatvalues(lm)</code></td><td>Leverage $h_{ii}$</td></tr>
+        <tr><td><code>rstandard(lm)</code></td><td>Internally studentized $r_i$</td></tr>
+        <tr><td><code>rstudent(lm)</code></td><td>Externally studentized $t_i$</td></tr>
+        <tr><td><code>cooks.distance(lm)</code></td><td>Cook's distance $D_i$</td></tr>
+        <tr><td><code>plot(lm, which=1:6)</code></td><td>Diagnostic plots</td></tr>
+        <tr><td><code>vif(lm)</code></td><td>VIF (requires <code>car</code> package)</td></tr>
+        <tr><td><code>p.adjust(pvals, method="holm")</code></td><td>Holm-Bonferroni correction</td></tr>
+        <tr><td><code>model.matrix(lm)</code></td><td>Design matrix $X$</td></tr>
+      </table>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ===================== REFERENCE SHEET ===================== -->
+<div class="section" id="refsheet">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="num" style="background:rgba(251,191,36,0.15);color:var(--yellow);">📄</div>
+    <h2>2-Page Reference Sheet (PDF)</h2>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <p style="color:var(--text-muted);margin-bottom:1rem;">Print this double-sided for your exam. <a href="reference_sheet.pdf" download>Download PDF</a></p>
+    <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#222;">
+      <iframe src="reference_sheet.pdf" style="width:100%;height:80vh;border:none;"></iframe>
+    </div>
+  </div></div>
+</div>
+
+</div><!-- /container -->
+
+<footer style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);">
+  STATS 413 Midterm 2 Study Guide &bull; Built from lecture slides, HW 4–6, &amp; Practice Midterm 2
+</footer>
+
+<script>
+// Toggle sections
+function toggleSection(header) {
+  header.closest('.section').classList.toggle('open');
+}
+
+// Toggle spoilers
+function toggleSpoiler(btn) {
+  btn.closest('.spoiler').classList.toggle('open');
+  btn.textContent = btn.closest('.spoiler').classList.contains('open')
+    ? 'Hide Solution ▾' : 'Show Solution ▸';
+}
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+// Active nav link
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
